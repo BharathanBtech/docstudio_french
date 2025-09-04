@@ -60,4 +60,5 @@ export interface AppConfig {
   language: string;
   apiBaseUrl: string;
   apiKey: string;
+  emailTemplatesUrl?: string;
 }
