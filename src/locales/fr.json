@@ -1,0 +1,76 @@
+{
+  "common": {
+    "loading": "Chargement...",
+    "error": "Erreur",
+    "success": "Succès",
+    "cancel": "Annuler",
+    "save": "Sauvegarder",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "back": "Retour",
+    "next": "Suivant",
+    "previous": "Précédent",
+    "submit": "Soumettre",
+    "close": "Fermer",
+    "welcome": "Bienvenue"
+  },
+  "auth": {
+    "login": "Connexion",
+    "logout": "Déconnexion",
+    "email": "Email",
+    "password": "Mot de passe",
+    "loginButton": "Se connecter",
+    "loginError": "Email ou mot de passe invalide",
+    "welcome": "Bienvenue sur DocStudio",
+    "loginSubtitle": "Connectez-vous à votre compte pour continuer"
+  },
+  "dashboard": {
+    "title": "Tableau de bord",
+    "csvUpload": "Téléchargement CSV",
+    "templateSelection": "Sélection de modèle",
+    "statusViewer": "Visualiseur de statut",
+    "uploadCsvFile": "Télécharger un fichier CSV",
+    "dragAndDrop": "Glissez et déposez votre fichier CSV ici, ou cliquez pour parcourir",
+    "selectFile": "Sélectionner un fichier",
+    "fileSelected": "Fichier sélectionné : {{fileName}}",
+    "previewData": "Aperçu des données",
+    "emailTemplate": "Modèle d'email",
+    "smsTemplate": "Modèle SMS",
+    "selectEmailTemplate": "Sélectionner un modèle d'email",
+    "selectSmsTemplate": "Sélectionner un modèle SMS",
+    "failoverSms": "En cas d'échec, continuer avec SMS",
+    "startTransaction": "Démarrer la transaction",
+    "stopTransaction": "Arrêter la transaction",
+    "transactionInProgress": "Transaction en cours...",
+    "transactionComplete": "Transaction terminée !"
+  },
+  "status": {
+    "pending": "En attente",
+    "success": "Succès",
+    "failed": "Échec",
+    "bounced": "Rebondi",
+    "smsSent": "SMS envoyé",
+    "emailStatus": "Statut de l'email",
+    "smsStatus": "Statut du SMS",
+    "rowData": "Données de ligne",
+    "actions": "Actions",
+    "retry": "Réessayer",
+    "viewDetails": "Voir les détails"
+  },
+  "errors": {
+    "fileRequired": "Veuillez sélectionner un fichier CSV",
+    "invalidFile": "Format de fichier invalide. Veuillez sélectionner un fichier CSV",
+    "templateRequired": "Veuillez sélectionner un modèle d'email",
+    "apiError": "Erreur API : {{message}}",
+    "networkError": "Erreur réseau. Veuillez vérifier votre connexion",
+    "parseError": "Erreur lors de l'analyse du fichier CSV"
+  },
+  "messages": {
+    "uploadSuccess": "Fichier CSV téléchargé avec succès",
+    "transactionStarted": "Transaction démarrée avec succès",
+    "transactionStopped": "Transaction arrêtée",
+    "emailSent": "Email envoyé avec succès",
+    "smsSent": "SMS envoyé avec succès",
+    "failoverTriggered": "Basculement déclenché - SMS envoyé"
+  }
+}

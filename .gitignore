@@ -1,0 +1,222 @@
+# -------------------------
+# OS files
+# -------------------------
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.swp
+*.swo
+
+# -------------------------
+# Git
+# -------------------------
+*.orig
+*.rej
+
+# -------------------------
+# Environment / secrets
+# -------------------------
+.env
+*.secret
+*.key
+*.pem
+
+# -------------------------
+# Logs & runtime files
+# -------------------------
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+pip-log.txt
+pip-delete-this-directory.txt
+*.pid
+*.seed
+*.pid.lock
+
+# -------------------------
+# Archives / temp
+# -------------------------
+*.tar
+*.gz
+*.zip
+*.7z
+*.tmp
+tmp/
+temp/
+
+# -------------------------
+# Node / JS
+# -------------------------
+node_modules/
+bower_components/
+jspm_packages/
+dist/
+build/
+.cache/
+.npm/
+.yarn/
+.yarn/cache/
+.yarn/unplugged/
+.yarn/build-state.yml
+.pnp.*
+coverage/
+.nyc_output/
+.storybook-out/
+.next/
+.out/
+.vite/
+vite.config.ts.timestamp-*
+.svelte-kit/
+.nuxt/
+.eslintcache
+.stylelintcache
+
+# -------------------------
+# Frontend frameworks (optional common)
+# -------------------------
+# React / CRA
+*.tsbuildinfo
+# Angular
+.angular/
+# Vue
+.vuepress/
+# Remix
+.build/
+
+# -------------------------
+# Python
+# -------------------------
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+.eggs/
+.python-version
+.venv/
+venv/
+ENV/
+build/
+dist/
+wheelhouse/
+.mypy_cache/
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.pyre/
+ruff_cache/
+
+# -------------------------
+# Java / JVM
+# -------------------------
+target/
+out/
+build/
+.gradle/
+.gradle-cache/
+.classpath
+.project
+.settings/
+*.class
+*.jar
+*.war
+*.ear
+hs_err_pid*
+replay_pid*
+
+# -------------------------
+# Go
+# -------------------------
+bin/
+vendor/
+*.test
+*.out
+.coverprofile
+
+# -------------------------
+# Rust
+# -------------------------
+target/
+Cargo.lock # (uncomment to ignore for libraries)
+**/*.rs.bk
+
+# -------------------------
+# PHP / Composer
+# -------------------------
+vendor/
+composer.lock # (uncomment to ignore for libraries)
+
+# -------------------------
+# Ruby
+# -------------------------
+.bundle/
+vendor/bundle/
+Gemfile.lock # (uncomment to ignore for libraries)
+coverage/
+
+# -------------------------
+# .NET
+# -------------------------
+bin/
+obj/
+*.user
+*.suo
+*.userprefs
+*.nupkg
+packages/
+*.VisualState.xml
+TestResult*/
+
+# -------------------------
+# Data science / notebooks
+# -------------------------
+.ipynb_checkpoints/
+.prof
+*.rdata
+.Rproj.user/
+.Rhistory
+.RData
+
+# -------------------------
+# Editors / IDEs
+# -------------------------
+.vscode/
+.vscode-test/
+.idea/
+*.iml
+*.ipr
+*.iws
+*.sublime-workspace
+*.sublime-project
+*.code-workspace
+
+# -------------------------
+# Docker
+# -------------------------
+**/.dockerignore.gen
+.docker/
+docker-data/
+
+# -------------------------
+# Images/build artifacts
+# -------------------------
+*.map
+*.min.*.map
+*.min.map
+
+# -------------------------
+# Monorepos
+# -------------------------
+packages/*/node_modules/
+packages/*/dist/

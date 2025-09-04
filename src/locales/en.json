@@ -1,0 +1,76 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "submit": "Submit",
+    "close": "Close",
+    "welcome": "Welcome"
+  },
+  "auth": {
+    "login": "Login",
+    "logout": "Logout",
+    "email": "Email",
+    "password": "Password",
+    "loginButton": "Sign In",
+    "loginError": "Invalid email or password",
+    "welcome": "Welcome to DocStudio",
+    "loginSubtitle": "Sign in to your account to continue"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "csvUpload": "CSV Upload",
+    "templateSelection": "Template Selection",
+    "statusViewer": "Status Viewer",
+    "uploadCsvFile": "Upload CSV File",
+    "dragAndDrop": "Drag and drop your CSV file here, or click to browse",
+    "selectFile": "Select File",
+    "fileSelected": "File selected: {{fileName}}",
+    "previewData": "Preview Data",
+    "emailTemplate": "Email Template",
+    "smsTemplate": "SMS Template",
+    "selectEmailTemplate": "Select Email Template",
+    "selectSmsTemplate": "Select SMS Template",
+    "failoverSms": "On failover, continue with SMS",
+    "startTransaction": "Start Transaction",
+    "stopTransaction": "Stop Transaction",
+    "transactionInProgress": "Transaction in progress...",
+    "transactionComplete": "Transaction complete!"
+  },
+  "status": {
+    "pending": "Pending",
+    "success": "Success",
+    "failed": "Failed",
+    "bounced": "Bounced",
+    "smsSent": "SMS Sent",
+    "emailStatus": "Email Status",
+    "smsStatus": "SMS Status",
+    "rowData": "Row Data",
+    "actions": "Actions",
+    "retry": "Retry",
+    "viewDetails": "View Details"
+  },
+  "errors": {
+    "fileRequired": "Please select a CSV file",
+    "invalidFile": "Invalid file format. Please select a CSV file",
+    "templateRequired": "Please select an email template",
+    "apiError": "API Error: {{message}}",
+    "networkError": "Network error. Please check your connection",
+    "parseError": "Error parsing CSV file"
+  },
+  "messages": {
+    "uploadSuccess": "CSV file uploaded successfully",
+    "transactionStarted": "Transaction started successfully",
+    "transactionStopped": "Transaction stopped",
+    "emailSent": "Email sent successfully",
+    "smsSent": "SMS sent successfully",
+    "failoverTriggered": "Failover triggered - SMS sent"
+  }
+}
