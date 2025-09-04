@@ -39,7 +39,7 @@ const LoginPage: React.FC = () => {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      background: 'linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%)',
+      backgroundColor: 'var(--white)',
       padding: 'var(--spacing-4)'
     }}>
       <div style={{
@@ -50,88 +50,194 @@ const LoginPage: React.FC = () => {
         <LanguageSelector />
       </div>
 
-      <div className="card" style={{
+      <div style={{
         maxWidth: '400px',
         width: '100%',
-        boxShadow: 'var(--shadow-xl)'
+        textAlign: 'center'
       }}>
-        <div className="card-header" style={{ textAlign: 'center', borderBottom: 'none' }}>
-          <div style={{ marginBottom: 'var(--spacing-4)' }}>
-            <img 
-              src="/images/docstudio-logo.png" 
-              alt="DocStudio Logo" 
+        {/* Logo and App Name */}
+        <div style={{ marginBottom: 'var(--spacing-8)' }}>
+          <img 
+            src="/images/docstudio-logo.png" 
+            alt="DocStudio Logo" 
+            style={{
+              height: '80px',
+              width: 'auto',
+              marginBottom: 'var(--spacing-4)'
+            }}
+          />
+          <h1 style={{ 
+            color: 'var(--gray-900)', 
+            fontSize: 'var(--font-size-3xl)',
+            fontWeight: '700',
+            margin: 0,
+            textTransform: 'uppercase',
+            letterSpacing: '0.05em'
+          }}>
+            Perfect Doc Studio
+          </h1>
+        </div>
+
+        {/* Welcome Message */}
+        <p style={{ 
+          color: 'var(--gray-600)', 
+          fontSize: 'var(--font-size-lg)',
+          margin: '0 0 var(--spacing-8) 0',
+          fontWeight: '500'
+        }}>
+          Welcome Back! Enter your details to login
+        </p>
+
+        <form onSubmit={handleSubmit} style={{ textAlign: 'left' }}>
+          {/* Username Field */}
+          <div style={{ marginBottom: 'var(--spacing-6)' }}>
+            <label htmlFor="email" style={{
+              display: 'block',
+              fontSize: 'var(--font-size-sm)',
+              fontWeight: '500',
+              color: 'var(--gray-700)',
+              marginBottom: 'var(--spacing-2)'
+            }}>
+              Username
+            </label>
+            <input
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              placeholder="Enter your username"
+              disabled={loading}
               style={{
-                height: '60px',
-                width: 'auto',
-                marginBottom: 'var(--spacing-3)'
+                width: '100%',
+                padding: 'var(--spacing-4)',
+                fontSize: 'var(--font-size-base)',
+                border: '1px solid var(--gray-300)',
+                borderRadius: 'var(--radius-lg)',
+                backgroundColor: 'var(--gray-50)',
+                color: 'var(--gray-900)',
+                outline: 'none',
+                transition: 'all 0.2s ease'
+              }}
+              onFocus={(e) => {
+                e.target.style.borderColor = 'var(--primary-color)';
+                e.target.style.backgroundColor = 'var(--white)';
+              }}
+              onBlur={(e) => {
+                e.target.style.borderColor = 'var(--gray-300)';
+                e.target.style.backgroundColor = 'var(--gray-50)';
               }}
             />
           </div>
-          <p style={{ color: 'var(--gray-600)', margin: 0 }}>
-            {t('auth.welcome')}
-          </p>
-          <p style={{ color: 'var(--gray-500)', fontSize: 'var(--font-size-sm)', margin: 0 }}>
-            {t('auth.loginSubtitle')}
-          </p>
-        </div>
 
-        <div className="card-body">
-          <form onSubmit={handleSubmit}>
-            <div className="form-group">
-              <label htmlFor="email" className="form-label">
-                {t('auth.email')}
-              </label>
-              <input
-                type="email"
-                id="email"
-                className="form-input"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                placeholder="Enter your email"
-                disabled={loading}
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="password" className="form-label">
-                {t('auth.password')}
-              </label>
-              <input
-                type="password"
-                id="password"
-                className="form-input"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                placeholder="Enter your password"
-                disabled={loading}
-              />
-            </div>
-
-            {error && (
-              <div className="alert alert-error">
-                {error}
-              </div>
-            )}
-
-            <button
-              type="submit"
-              className="btn btn-primary btn-lg"
-              style={{ width: '100%' }}
+          {/* Password Field */}
+          <div style={{ marginBottom: 'var(--spacing-4)' }}>
+            <label htmlFor="password" style={{
+              display: 'block',
+              fontSize: 'var(--font-size-sm)',
+              fontWeight: '500',
+              color: 'var(--gray-700)',
+              marginBottom: 'var(--spacing-2)'
+            }}>
+              Password
+            </label>
+            <input
+              type="password"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              placeholder="Enter your password"
               disabled={loading}
-            >
-              {loading ? (
-                <>
-                  <div className="spinner"></div>
-                  {t('common.loading')}
-                </>
-              ) : (
-                t('auth.loginButton')
-              )}
-            </button>
-          </form>
+              style={{
+                width: '100%',
+                padding: 'var(--spacing-4)',
+                fontSize: 'var(--font-size-base)',
+                border: '1px solid var(--gray-300)',
+                borderRadius: 'var(--radius-lg)',
+                backgroundColor: 'var(--gray-50)',
+                color: 'var(--gray-900)',
+                outline: 'none',
+                transition: 'all 0.2s ease'
+              }}
+              onFocus={(e) => {
+                e.target.style.borderColor = 'var(--primary-color)';
+                e.target.style.backgroundColor = 'var(--white)';
+              }}
+              onBlur={(e) => {
+                e.target.style.borderColor = 'var(--gray-300)';
+                e.target.style.backgroundColor = 'var(--gray-50)';
+              }}
+            />
+          </div>
 
+          {/* Forgot Password Link */}
+          <div style={{ 
+            textAlign: 'right', 
+            marginBottom: 'var(--spacing-8)',
+            fontSize: 'var(--font-size-sm)'
+          }}>
+            <a href="#" style={{
+              color: 'var(--gray-600)',
+              textDecoration: 'underline',
+              cursor: 'pointer'
+            }}>
+              Forgot Password
+            </a>
+          </div>
+
+          {/* Login Button */}
+          <button
+            type="submit"
+            disabled={loading}
+            style={{
+              width: '100%',
+              padding: 'var(--spacing-4)',
+              fontSize: 'var(--font-size-lg)',
+              fontWeight: '600',
+              backgroundColor: '#FFD700',
+              color: 'var(--gray-900)',
+              border: 'none',
+              borderRadius: 'var(--radius-lg)',
+              cursor: 'pointer',
+              textTransform: 'uppercase',
+              letterSpacing: '0.05em',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: 'var(--spacing-2)',
+              transition: 'all 0.2s ease'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = '#FFED4E';
+              e.currentTarget.style.transform = 'translateY(-2px)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = '#FFD700';
+              e.currentTarget.style.transform = 'translateY(0)';
+            }}
+          >
+            {loading ? t('auth.loggingIn') : 'LOG ME IN'}
+            {!loading && (
+              <span style={{ fontSize: 'var(--font-size-lg)' }}>→</span>
+            )}
+          </button>
+
+          {error && (
+            <div style={{
+              marginTop: 'var(--spacing-4)',
+              padding: 'var(--spacing-3)',
+              backgroundColor: 'var(--error-bg)',
+              color: 'var(--error-color)',
+              borderRadius: 'var(--radius-md)',
+              fontSize: 'var(--font-size-sm)',
+              textAlign: 'center'
+            }}>
+              {error}
+            </div>
+          )}
+
+          {/* Demo Credentials */}
           <div style={{ 
             marginTop: 'var(--spacing-6)', 
             textAlign: 'center',
@@ -145,7 +251,7 @@ const LoginPage: React.FC = () => {
             Email: admin@docstudio.com<br />
             Password: password
           </div>
-        </div>
+        </form>
       </div>
     </div>
   );
