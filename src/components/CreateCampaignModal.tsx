@@ -182,8 +182,15 @@ const CreateCampaignModal: React.FC<CreateCampaignModalProps> = ({ onClose, onSu
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
-          <h3 className="modal-title">Create New Campaign</h3>
-          <button className="modal-close" onClick={onClose}>×</button>
+          <h3 className="modal-title">{t('campaigns.modalTitle')}</h3>
+          <button
+            type="button"
+            className="modal-close"
+            onClick={onClose}
+            aria-label="Close"
+          >
+            ×
+          </button>
         </div>
         
         <div className="modal-body">
@@ -193,12 +200,12 @@ const CreateCampaignModal: React.FC<CreateCampaignModalProps> = ({ onClose, onSu
               {/* Campaign Details */}
               <div>
                 <h4 style={{ marginBottom: 'var(--spacing-4)', color: 'var(--gray-700)' }}>
-                  Campaign Information
+                  {t('campaigns.campaignInformation')}
                 </h4>
                 <div style={{ display: 'grid', gap: 'var(--spacing-4)' }}>
                   <div className="form-group">
                     <label htmlFor="campaignName" className="form-label">
-                      Campaign Name *
+                      {t('campaigns.campaignName')} *
                     </label>
                     <input
                       type="text"
@@ -206,21 +213,21 @@ const CreateCampaignModal: React.FC<CreateCampaignModalProps> = ({ onClose, onSu
                       className="form-input"
                       value={formData.name}
                       onChange={(e) => handleInputChange('name', e.target.value)}
-                      placeholder="Enter campaign name"
+                      placeholder={t('campaigns.campaignNamePlaceholder')}
                       required
                     />
                   </div>
                   
                   <div className="form-group">
                     <label htmlFor="campaignDescription" className="form-label">
-                      Description
+                      {t('campaigns.description')}
                     </label>
                     <textarea
                       id="campaignDescription"
                       className="form-input"
                       value={formData.description}
                       onChange={(e) => handleInputChange('description', e.target.value)}
-                      placeholder="Enter campaign description"
+                      placeholder={t('campaigns.descriptionPlaceholder')}
                       rows={3}
                     />
                   </div>
@@ -230,7 +237,7 @@ const CreateCampaignModal: React.FC<CreateCampaignModalProps> = ({ onClose, onSu
               {/* Template Selection */}
               <div>
                 <h4 style={{ marginBottom: 'var(--spacing-4)', color: 'var(--gray-700)' }}>
-                  Template Configuration
+                  {t('campaigns.templateConfiguration')}
                 </h4>
                 <div style={{ display: 'grid', gap: 'var(--spacing-4)' }}>
                   
@@ -238,14 +245,14 @@ const CreateCampaignModal: React.FC<CreateCampaignModalProps> = ({ onClose, onSu
                     <div style={{ textAlign: 'center', padding: 'var(--spacing-8)' }}>
                       <div className="spinner"></div>
                       <p style={{ marginTop: 'var(--spacing-4)', color: 'var(--gray-500)' }}>
-                        Loading templates...
+                        {t('campaigns.loadingTemplates')}
                       </p>
                     </div>
                   ) : (
                     <>
                       <div className="form-group">
                         <label htmlFor="emailTemplate" className="form-label">
-                          Email Template *
+                          {t('campaigns.emailTemplate')} *
                         </label>
                         <select
                           id="emailTemplate"
@@ -254,7 +261,7 @@ const CreateCampaignModal: React.FC<CreateCampaignModalProps> = ({ onClose, onSu
                           onChange={(e) => handleInputChange('emailTemplateId', e.target.value)}
                           required
                         >
-                          <option value="">Select Email Template</option>
+                          <option value="">{t('campaigns.selectEmailTemplate')}</option>
                           {emailTemplates.map((template) => (
                             <option key={template.id} value={template.id}>
                               {template.name}
@@ -263,7 +270,7 @@ const CreateCampaignModal: React.FC<CreateCampaignModalProps> = ({ onClose, onSu
                         </select>
                         {formData.emailTemplateId && (
                           <div className="form-help">
-                            Selected: {getEmailTemplateName(formData.emailTemplateId)}
+                            {t('campaigns.selectedEmailTemplate', { name: getEmailTemplateName(formData.emailTemplateId) })}
                           </div>
                         )}
                       </div>
@@ -277,18 +284,18 @@ const CreateCampaignModal: React.FC<CreateCampaignModalProps> = ({ onClose, onSu
                             style={{ width: 'auto' }}
                           />
                           <span className="form-label" style={{ margin: 0 }}>
-                            Enable SMS Failover
+                            {t('campaigns.enableSmsFailover')}
                           </span>
                         </label>
                         <div className="form-help">
-                          If checked, SMS will be sent automatically when email delivery fails
+                          {t('campaigns.enableSmsFailoverHelp')}
                         </div>
                       </div>
 
                       {formData.enableSmsFailover && (
                         <div className="form-group">
                           <label htmlFor="smsTemplate" className="form-label">
-                            SMS Template *
+                            {t('campaigns.smsTemplate')} *
                           </label>
                           <select
                             id="smsTemplate"
@@ -297,7 +304,7 @@ const CreateCampaignModal: React.FC<CreateCampaignModalProps> = ({ onClose, onSu
                             onChange={(e) => handleInputChange('smsTemplateId', e.target.value)}
                             required={formData.enableSmsFailover}
                           >
-                            <option value="">Select SMS Template</option>
+                            <option value="">{t('campaigns.selectSmsTemplate')}</option>
                             {smsTemplates.map((template) => (
                               <option key={template.id} value={template.id}>
                                 {template.name}
@@ -306,7 +313,7 @@ const CreateCampaignModal: React.FC<CreateCampaignModalProps> = ({ onClose, onSu
                           </select>
                           {formData.smsTemplateId && (
                             <div className="form-help">
-                              Selected: {getSmsTemplateName(formData.smsTemplateId)}
+                              {t('campaigns.selectedSmsTemplate', { name: getSmsTemplateName(formData.smsTemplateId) })}
                             </div>
                           )}
                         </div>
@@ -319,7 +326,7 @@ const CreateCampaignModal: React.FC<CreateCampaignModalProps> = ({ onClose, onSu
               {/* CSV Upload */}
               <div>
                 <h4 style={{ marginBottom: 'var(--spacing-4)', color: 'var(--gray-700)' }}>
-                  Data Upload
+                  {t('campaigns.dataUpload')}
                 </h4>
                 
                 {csvData.length === 0 ? (
@@ -334,10 +341,10 @@ const CreateCampaignModal: React.FC<CreateCampaignModalProps> = ({ onClose, onSu
                         📁
                       </div>
                       <h4 style={{ margin: 0, color: 'var(--gray-700)' }}>
-                        Upload CSV File
+                        {t('campaigns.uploadCsvFile')}
                       </h4>
                       <p style={{ margin: 0, color: 'var(--gray-500)' }}>
-                        Drag and drop your CSV file here, or click to browse
+                        {t('campaigns.dragAndDropOrClickToBrowse')}
                       </p>
                       <button
                         type="button"
@@ -347,7 +354,7 @@ const CreateCampaignModal: React.FC<CreateCampaignModalProps> = ({ onClose, onSu
                           fileInput?.click();
                         }}
                       >
-                        Select File
+                        {t('campaigns.selectFile')}
                       </button>
                     </div>
                   </div>
@@ -361,10 +368,10 @@ const CreateCampaignModal: React.FC<CreateCampaignModalProps> = ({ onClose, onSu
                     }}>
                       <div>
                         <h4 style={{ margin: 0, color: 'var(--gray-700)' }}>
-                          CSV Data Loaded
+                          {t('campaigns.csvDataLoaded')}
                         </h4>
                         <p style={{ margin: 'var(--spacing-2) 0 0 0', color: 'var(--gray-500)' }}>
-                          {csvData.length} records ready for processing
+                          {t('campaigns.recordsReadyForProcessing', { count: csvData.length })}
                         </p>
                       </div>
                       <button
@@ -372,7 +379,7 @@ const CreateCampaignModal: React.FC<CreateCampaignModalProps> = ({ onClose, onSu
                         onClick={() => setCsvData([])}
                         className="btn btn-secondary btn-sm"
                       >
-                        Change File
+                        {t('campaigns.changeFile')}
                       </button>
                     </div>
                     
@@ -402,7 +409,7 @@ const CreateCampaignModal: React.FC<CreateCampaignModalProps> = ({ onClose, onSu
                           {csvData.length > 3 && (
                             <tr>
                               <td colSpan={Object.keys(csvData[0]?.data || {}).length} style={{ textAlign: 'center', color: 'var(--gray-500)' }}>
-                                ... and {csvData.length - 3} more rows
+                                {t('campaigns.andMoreRows', { count: csvData.length - 3 })}
                               </td>
                             </tr>
                           )}
@@ -519,16 +526,16 @@ const CreateCampaignModal: React.FC<CreateCampaignModalProps> = ({ onClose, onSu
                           value={formData.timezone}
                           onChange={(e) => setFormData(prev => ({ ...prev, timezone: e.target.value }))}
                         >
-                          <option value="UTC">UTC</option>
-                          <option value="America/New_York">Eastern Time</option>
-                          <option value="America/Chicago">Central Time</option>
-                          <option value="America/Denver">Mountain Time</option>
-                          <option value="America/Los_Angeles">Pacific Time</option>
-                          <option value="Europe/London">London</option>
-                          <option value="Europe/Paris">Paris</option>
-                          <option value="Asia/Tokyo">Tokyo</option>
-                          <option value="Asia/Shanghai">Shanghai</option>
-                          <option value="Asia/Kolkata">India</option>
+                          <option value="UTC">{t('campaigns.utc')}</option>
+                          <option value="America/New_York">{t('campaigns.easternTime')}</option>
+                          <option value="America/Chicago">{t('campaigns.centralTime')}</option>
+                          <option value="America/Denver">{t('campaigns.mountainTime')}</option>
+                          <option value="America/Los_Angeles">{t('campaigns.pacificTime')}</option>
+                          <option value="Europe/London">{t('campaigns.london')}</option>
+                          <option value="Europe/Paris">{t('campaigns.paris')}</option>
+                          <option value="Asia/Tokyo">{t('campaigns.tokyo')}</option>
+                          <option value="Asia/Shanghai">{t('campaigns.shanghai')}</option>
+                          <option value="Asia/Kolkata">{t('campaigns.india')}</option>
                         </select>
                         <div className="form-help">
                           {t('campaigns.timezoneHelp')}
@@ -556,7 +563,7 @@ const CreateCampaignModal: React.FC<CreateCampaignModalProps> = ({ onClose, onSu
             onClick={onClose}
             disabled={loading}
           >
-            Cancel
+            {t('campaigns.cancel')}
           </button>
           <button 
             type="submit" 
@@ -567,10 +574,10 @@ const CreateCampaignModal: React.FC<CreateCampaignModalProps> = ({ onClose, onSu
             {loading ? (
               <>
                 <div className="spinner"></div>
-                Creating...
+                {t('campaigns.creating')}
               </>
             ) : (
-              'Create Campaign'
+              t('campaigns.createCampaign')
             )}
           </button>
         </div>
