@@ -15,6 +15,11 @@ const CampaignsDashboard: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [error, setError] = useState('');
+  
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const [totalCampaigns, setTotalCampaigns] = useState(0);
 
   useEffect(() => {
     console.log('CampaignsDashboard: Component mounted');
@@ -23,12 +28,12 @@ const CampaignsDashboard: React.FC = () => {
 
   const loadCampaigns = async () => {
     try {
-      
       console.log('CampaignsDashboard: Loading campaigns...');
       setLoading(true);
       const campaignsData = await apiService.getCampaigns();
       console.log('CampaignsDashboard: Campaigns loaded:', campaignsData);
       setCampaigns(campaignsData);
+      setTotalCampaigns(campaignsData.length);
     } catch (error) {
       console.error('CampaignsDashboard: Error loading campaigns:', error);
       setError('Failed to load campaigns');
@@ -57,6 +62,21 @@ const CampaignsDashboard: React.FC = () => {
   const handleLogout = () => {
     console.log('CampaignsDashboard: Logging out');
     logout();
+  };
+
+  // Pagination helper functions
+  const totalPages = Math.ceil(totalCampaigns / pageSize);
+  const startIndex = (currentPage - 1) * pageSize;
+  const endIndex = startIndex + pageSize;
+  const currentCampaigns = campaigns.slice(startIndex, endIndex);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
+  const handlePageSizeChange = (newPageSize: number) => {
+    setPageSize(newPageSize);
+    setCurrentPage(1); // Reset to first page when changing page size
   };
 
   const getStatusBadge = (status: string) => {
@@ -167,7 +187,38 @@ const CampaignsDashboard: React.FC = () => {
         {/* Campaigns List */}
         <div className="card">
           <div className="card-header">
-            <h3 className="card-title">All Campaigns ({campaigns.length})</h3>
+            <div style={{ 
+              display: 'flex', 
+              justifyContent: 'space-between', 
+              alignItems: 'center' 
+            }}>
+              <h3 className="card-title">All Campaigns ({totalCampaigns})</h3>
+              
+              {/* Page Size Selector */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-3)' }}>
+                <label style={{ fontSize: 'var(--font-size-sm)', color: 'var(--gray-600)' }}>
+                  Show:
+                </label>
+                <select
+                  value={pageSize}
+                  onChange={(e) => handlePageSizeChange(Number(e.target.value))}
+                  style={{
+                    padding: 'var(--spacing-2)',
+                    border: '1px solid var(--gray-300)',
+                    borderRadius: 'var(--radius-md)',
+                    fontSize: 'var(--font-size-sm)'
+                  }}
+                >
+                  <option value={10}>10</option>
+                  <option value={25}>25</option>
+                  <option value={50}>50</option>
+                  <option value={100}>100</option>
+                </select>
+                <span style={{ fontSize: 'var(--font-size-sm)', color: 'var(--gray-600)' }}>
+                  per page
+                </span>
+              </div>
+            </div>
           </div>
           
           <div className="card-body">
@@ -188,86 +239,140 @@ const CampaignsDashboard: React.FC = () => {
                 </p>
               </div>
             ) : (
-              <div style={{ overflow: 'auto' }}>
-                <table className="table">
-                  <thead>
-                    <tr>
-                      <th>Campaign Name</th>
-                      <th>Status</th>
-                      <th>Email Template</th>
-                      <th>SMS Failover</th>
-                      <th>Records</th>
-                      <th>Success Rate</th>
-                      <th>Created</th>
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {campaigns.map((campaign) => (
-                      <tr key={campaign.id}>
-                        <td>
-                          <div>
-                            <div style={{ fontWeight: '600', color: 'var(--gray-900)' }}>
-                              {campaign.name}
-                            </div>
-                            {campaign.description && (
-                              <div style={{ 
-                                fontSize: 'var(--font-size-sm)', 
-                                color: 'var(--gray-500)',
-                                marginTop: 'var(--spacing-1)'
-                              }}>
-                                {campaign.description}
-                              </div>
-                            )}
-                          </div>
-                        </td>
-                        <td>{getStatusBadge(campaign.status)}</td>
-                        <td>
-                          <div style={{ fontSize: 'var(--font-size-sm)' }}>
-                            {campaign.emailTemplateName}
-                          </div>
-                        </td>
-                        <td>
-                          {campaign.enableSmsFailover ? (
-                            <span style={{ color: 'var(--success-color)' }}>✓ Enabled</span>
-                          ) : (
-                            <span style={{ color: 'var(--gray-500)' }}>Disabled</span>
-                          )}
-                        </td>
-                        <td>
-                          <div style={{ textAlign: 'center' }}>
-                            <div style={{ fontWeight: '600' }}>{campaign.totalRecords}</div>
-                            <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--gray-500)' }}>
-                              Total
-                            </div>
-                          </div>
-                        </td>
-                        <td>
-                          <div style={{ textAlign: 'center' }}>
-                            <div style={{ fontWeight: '600', color: 'var(--success-color)' }}>
-                              {campaign.totalRecords > 0 
-                                ? Math.round((campaign.successCount / campaign.totalRecords) * 100)
-                                : 0}%
-                            </div>
-                            <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--gray-500)' }}>
-                              {campaign.successCount}/{campaign.totalRecords}
-                            </div>
-                          </div>
-                        </td>
-                        <td>{formatDate(campaign.createdAt)}</td>
-                        <td>
-                          <button
-                            onClick={() => handleViewCampaign(campaign.id)}
-                            className="btn btn-sm btn-primary"
-                          >
-                            View Details
-                          </button>
-                        </td>
+              <>
+                <div style={{ overflow: 'auto' }}>
+                  <table className="table">
+                    <thead>
+                      <tr>
+                        <th>Campaign Name</th>
+                        <th>Status</th>
+                        <th>Email Template</th>
+                        <th>SMS Failover</th>
+                        <th>Records</th>
+                        <th>Success Rate</th>
+                        <th>Created</th>
+                        <th>Actions</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                    </thead>
+                    <tbody>
+                      {currentCampaigns.map((campaign) => (
+                        <tr key={campaign.id}>
+                          <td>
+                            <div>
+                              <div style={{ fontWeight: '600', color: 'var(--gray-900)' }}>
+                                {campaign.name}
+                              </div>
+                              {campaign.description && (
+                                <div style={{ 
+                                  fontSize: 'var(--font-size-sm)', 
+                                  color: 'var(--gray-500)',
+                                  marginTop: 'var(--spacing-1)'
+                                }}>
+                                  {campaign.description}
+                                </div>
+                              )}
+                            </div>
+                          </td>
+                          <td>{getStatusBadge(campaign.status)}</td>
+                          <td>
+                            <div style={{ fontSize: 'var(--font-size-sm)' }}>
+                              {campaign.emailTemplateName}
+                            </div>
+                          </td>
+                          <td>
+                            {campaign.enableSmsFailover ? (
+                              <span style={{ color: 'var(--success-color)' }}>✓ Enabled</span>
+                            ) : (
+                              <span style={{ color: 'var(--gray-500)' }}>Disabled</span>
+                            )}
+                          </td>
+                          <td>
+                            <div style={{ textAlign: 'center' }}>
+                              <div style={{ fontWeight: '600' }}>{campaign.totalRecords}</div>
+                              <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--gray-500)' }}>
+                                Total
+                              </div>
+                            </div>
+                          </td>
+                          <td>
+                            <div style={{ textAlign: 'center' }}>
+                              <div style={{ fontWeight: '600', color: 'var(--success-color)' }}>
+                                {campaign.totalRecords > 0 
+                                  ? Math.round((campaign.successCount / campaign.totalRecords) * 100)
+                                  : 0}%
+                              </div>
+                              <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--gray-500)' }}>
+                                {campaign.successCount}/{campaign.totalRecords}
+                              </div>
+                            </div>
+                          </td>
+                          <td>{formatDate(campaign.createdAt)}</td>
+                          <td>
+                            <button
+                              onClick={() => handleViewCampaign(campaign.id)}
+                              className="btn btn-sm btn-primary"
+                            >
+                              View Details
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+
+                {/* Pagination Controls */}
+                {totalPages > 1 && (
+                  <div style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    marginTop: 'var(--spacing-6)',
+                    padding: 'var(--spacing-4)',
+                    borderTop: '1px solid var(--gray-200)'
+                  }}>
+                    <div style={{ fontSize: 'var(--font-size-sm)', color: 'var(--gray-600)' }}>
+                      Showing {startIndex + 1} to {Math.min(endIndex, totalCampaigns)} of {totalCampaigns} campaigns
+                    </div>
+                    
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-2)' }}>
+                      {/* Previous Button */}
+                      <button
+                        onClick={() => handlePageChange(currentPage - 1)}
+                        disabled={currentPage === 1}
+                        className="btn btn-sm btn-secondary"
+                        style={{ minWidth: '80px' }}
+                      >
+                        Previous
+                      </button>
+                      
+                      {/* Page Numbers */}
+                      <div style={{ display: 'flex', gap: 'var(--spacing-1)' }}>
+                        {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                          <button
+                            key={page}
+                            onClick={() => handlePageChange(page)}
+                            className={`btn btn-sm ${currentPage === page ? 'btn-primary' : 'btn-secondary'}`}
+                            style={{ minWidth: '40px' }}
+                          >
+                            {page}
+                          </button>
+                        ))}
+                      </div>
+                      
+                      {/* Next Button */}
+                      <button
+                        onClick={() => handlePageChange(currentPage + 1)}
+                        disabled={currentPage === totalPages}
+                        className="btn btn-sm btn-secondary"
+                        style={{ minWidth: '80px' }}
+                      >
+                        Next
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </>
             )}
           </div>
         </div>

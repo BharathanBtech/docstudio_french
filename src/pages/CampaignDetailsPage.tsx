@@ -219,8 +219,8 @@ const CampaignDetailsPage: React.FC = () => {
                 </h4>
                 <div style={{ 
                   display: 'grid', 
-                  gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-                  gap: 'var(--spacing-4)'
+                  gridTemplateColumns: 'repeat(3, 1fr)',
+                  gap: 'var(--spacing-6)'
                 }}>
                   <div>
                     <label style={{ fontSize: 'var(--font-size-sm)', color: 'var(--gray-500)' }}>
@@ -247,19 +247,25 @@ const CampaignDetailsPage: React.FC = () => {
                     </div>
                   </div>
                   
-                  {campaign.enableSmsFailover && campaign.smsTemplateName && (
-                    <div>
-                      <label style={{ fontSize: 'var(--font-size-sm)', color: 'var(--gray-500)' }}>
-                        SMS Template
-                      </label>
-                      <div style={{ marginTop: 'var(--spacing-1)', fontWeight: '500' }}>
-                        {campaign.smsTemplateName}
-                      </div>
-                      <div style={{ fontSize: 'var(--font-size-sm)', color: 'var(--gray-500)' }}>
-                        ID: {campaign.smsTemplateId}
-                      </div>
+                  <div>
+                    <label style={{ fontSize: 'var(--font-size-sm)', color: 'var(--gray-500)' }}>
+                      SMS Template
+                    </label>
+                    <div style={{ marginTop: 'var(--spacing-1)', fontWeight: '500' }}>
+                      {campaign.enableSmsFailover && campaign.smsTemplateName ? (
+                        campaign.smsTemplateName
+                      ) : (
+                        <span style={{ color: 'var(--gray-400)', fontStyle: 'italic' }}>Not configured</span>
+                      )}
                     </div>
-                  )}
+                    <div style={{ fontSize: 'var(--font-size-sm)', color: 'var(--gray-500)' }}>
+                      {campaign.enableSmsFailover && campaign.smsTemplateId ? (
+                        `ID: ${campaign.smsTemplateId}`
+                      ) : (
+                        <span style={{ color: 'var(--gray-400)', fontStyle: 'italic' }}>No ID</span>
+                      )}
+                    </div>
+                  </div>
                 </div>
               </div>
 
