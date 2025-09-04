@@ -161,7 +161,7 @@ const TemplateSelectionSection: React.FC<TemplateSelectionSectionProps> = ({
             
             {enableSmsFailover && smsTemplates.length === 0 && (
               <div className="alert alert-warning" style={{ marginTop: 'var(--spacing-3)', marginBottom: 0 }}>
-                No SMS templates available. SMS failover will not work.
+                No SMS templates available. Email failover will not work.
               </div>
             )}
           </div>

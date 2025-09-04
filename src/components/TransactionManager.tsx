@@ -264,7 +264,7 @@ const TransactionManager: React.FC<TransactionManagerProps> = ({
             </h4>
             <div style={{ fontSize: 'var(--font-size-sm)', color: 'var(--blue-700)' }}>
               <div><strong>Email Template:</strong> {emailTemplateId}</div>
-              <div><strong>SMS Failover:</strong> {enableSmsFailover ? 'Enabled' : 'Disabled'}</div>
+              <div><strong>Email Failover:</strong> {enableSmsFailover ? 'Enabled' : 'Disabled'}</div>
               {enableSmsFailover && smsTemplateId && (
                 <div><strong>SMS Template:</strong> {smsTemplateId}</div>
               )}
