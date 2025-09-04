@@ -62,3 +62,38 @@ export interface AppConfig {
   apiKey: string;
   emailTemplatesUrl?: string;
 }
+
+export interface Campaign {
+  id: string;
+  name: string;
+  description?: string;
+  emailTemplateId: string;
+  emailTemplateName: string;
+  smsTemplateId?: string;
+  smsTemplateName?: string;
+  enableSmsFailover: boolean;
+  csvData: CsvRow[];
+  status: CampaignStatus;
+  createdAt: string;
+  updatedAt: string;
+  createdBy: string;
+  totalRecords: number;
+  successCount: number;
+  failedCount: number;
+  bouncedCount: number;
+  smsSentCount: number;
+}
+
+export type CampaignStatus = 'draft' | 'active' | 'paused' | 'completed' | 'failed';
+
+export interface CreateCampaignRequest {
+  name: string;
+  description?: string;
+  emailTemplateId: string;
+  emailTemplateName: string;
+  smsTemplateId?: string;
+  smsTemplateName?: string;
+  enableSmsFailover: boolean;
+  createdBy: string;
+  csvData: CsvRow[];
+}

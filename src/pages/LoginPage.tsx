@@ -22,7 +22,7 @@ const LoginPage: React.FC = () => {
     try {
       const success = await login(email, password);
       if (success) {
-        navigate('/dashboard');
+        navigate('/campaigns');
       } else {
         setError(t('auth.loginError'));
       }

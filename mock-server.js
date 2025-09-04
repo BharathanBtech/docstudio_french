@@ -42,6 +42,50 @@ const smsTemplates = [
   }
 ];
 
+// Mock campaigns data
+let campaigns = [
+  {
+    id: 'campaign-1',
+    name: 'Welcome Campaign 2024',
+    description: 'Welcome emails for new customers',
+    emailTemplateId: 'email-1',
+    emailTemplateName: 'Welcome Email',
+    smsTemplateId: 'sms-1',
+    smsTemplateName: 'Welcome SMS',
+    enableSmsFailover: true,
+    csvData: [],
+    status: 'completed',
+    createdAt: '2024-01-15T10:00:00Z',
+    updatedAt: '2024-01-20T15:30:00Z',
+    createdBy: 'admin@docstudio.com',
+    totalRecords: 150,
+    successCount: 142,
+    failedCount: 3,
+    bouncedCount: 5,
+    smsSentCount: 5
+  },
+  {
+    id: 'campaign-2',
+    name: 'Newsletter Q1 2024',
+    description: 'Quarterly newsletter for existing customers',
+    emailTemplateId: 'email-2',
+    emailTemplateName: 'Newsletter',
+    smsTemplateId: null,
+    smsTemplateName: null,
+    enableSmsFailover: false,
+    csvData: [],
+    status: 'active',
+    createdAt: '2024-01-10T09:00:00Z',
+    updatedAt: '2024-01-18T14:20:00Z',
+    createdBy: 'admin@docstudio.com',
+    totalRecords: 75,
+    successCount: 68,
+    failedCount: 2,
+    bouncedCount: 5,
+    smsSentCount: 0
+  }
+];
+
 // Routes
 app.get('/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
@@ -59,6 +103,127 @@ app.get('/sms-templates', (req, res) => {
     success: true,
     data: smsTemplates
   });
+});
+
+// Campaigns endpoints
+app.get('/campaigns', (req, res) => {
+  res.json({
+    success: true,
+    data: campaigns
+  });
+});
+
+app.get('/campaigns/:id', (req, res) => {
+  const campaign = campaigns.find(c => c.id === req.params.id);
+  if (campaign) {
+    res.json({
+      success: true,
+      data: campaign
+    });
+  } else {
+    res.status(404).json({
+      success: false,
+      error: 'Campaign not found'
+    });
+  }
+});
+
+app.post('/campaigns', (req, res) => {
+  const { name, description, emailTemplateId, smsTemplateId, enableSmsFailover, csvData } = req.body;
+  
+  // Find template names
+  const emailTemplate = emailTemplates.find(t => t.id === emailTemplateId);
+  const smsTemplate = smsTemplates.find(t => t.id === smsTemplateId);
+  
+  const newCampaign = {
+    id: `campaign-${Date.now()}`,
+    name,
+    description,
+    emailTemplateId,
+    emailTemplateName: emailTemplate?.name || 'Unknown Template',
+    smsTemplateId: enableSmsFailover ? smsTemplateId : null,
+    smsTemplateName: enableSmsFailover ? smsTemplate?.name || null : null,
+    enableSmsFailover,
+    csvData: csvData || [],
+    status: 'draft',
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+    createdBy: 'admin@docstudio.com',
+    totalRecords: csvData?.length || 0,
+    successCount: 0,
+    failedCount: 0,
+    bouncedCount: 0,
+    smsSentCount: 0
+  };
+  
+  campaigns.push(newCampaign);
+  
+  res.json({
+    success: true,
+    data: newCampaign
+  });
+});
+
+app.put('/campaigns/:id', (req, res) => {
+  const campaignIndex = campaigns.findIndex(c => c.id === req.params.id);
+  if (campaignIndex !== -1) {
+    campaigns[campaignIndex] = {
+      ...campaigns[campaignIndex],
+      ...req.body,
+      updatedAt: new Date().toISOString()
+    };
+    
+    res.json({
+      success: true,
+      data: campaigns[campaignIndex]
+    });
+  } else {
+    res.status(404).json({
+      success: false,
+      error: 'Campaign not found'
+    });
+  }
+});
+
+app.delete('/campaigns/:id', (req, res) => {
+  const campaignIndex = campaigns.findIndex(c => c.id === req.params.id);
+  if (campaignIndex !== -1) {
+    campaigns.splice(campaignIndex, 1);
+    res.json({ success: true });
+  } else {
+    res.status(404).json({
+      success: false,
+      error: 'Campaign not found'
+    });
+  }
+});
+
+app.post('/campaigns/:id/start', (req, res) => {
+  const campaign = campaigns.find(c => c.id === req.params.id);
+  if (campaign) {
+    campaign.status = 'active';
+    campaign.updatedAt = new Date().toISOString();
+    res.json({ success: true });
+  } else {
+    res.status(404).json({
+      success: false,
+      error: 'Campaign not found'
+    });
+  }
+});
+
+app.post('/campaigns/:id/pause', (req, res) => {
+  const campaign = campaigns.find(c => c.id === req.params.id);
+  if (campaign) {
+    campaign.status = 'paused';
+    campaign.updatedAt = new Date().toISOString();
+    res.json({ success: true });
+  } else {
+    res.status(404).json({
+      success: false,
+      error: 'Campaign not found'
+    });
+  }
 });
 
 app.post('/send-email', (req, res) => {
@@ -98,32 +263,41 @@ app.post('/send-sms', (req, res) => {
   // Simulate processing delay
   setTimeout(() => {
     const random = Math.random();
-    let status = 'sms_sent';
+    let status = 'success';
     let message = 'SMS sent successfully';
     
-    if (random < 0.15) {
+    if (random < 0.1) {
       status = 'failed';
       message = 'Invalid phone number';
     }
     
     res.json({
-      success: status === 'sms_sent',
+      success: status === 'success',
       data: {
         rowId: `row-${Date.now()}`,
-        success: status === 'sms_sent',
+        success: status === 'success',
         status,
         message,
         timestamp: new Date().toISOString()
       }
     });
-  }, 300 + Math.random() * 700); // Random delay between 300ms and 1s
+  }, 300 + Math.random() * 500); // Random delay between 300ms and 800ms
 });
 
 // Start server
 app.listen(PORT, () => {
-  console.log(`🚀 Mock Activepieces server running on http://localhost:${PORT}`);
-  console.log(`📧 Available email templates: ${emailTemplates.length}`);
-  console.log(`📱 Available SMS templates: ${smsTemplates.length}`);
-  console.log(`\n🔗 Frontend should be running on http://localhost:3001`);
-  console.log(`📝 Use the sample CSV file: sample-data.csv`);
+  console.log(`Mock server running on http://localhost:${PORT}`);
+  console.log('Available endpoints:');
+  console.log('- GET  /health');
+  console.log('- GET  /email-templates');
+  console.log('- GET  /sms-templates');
+  console.log('- GET  /campaigns');
+  console.log('- GET  /campaigns/:id');
+  console.log('- POST /campaigns');
+  console.log('- PUT  /campaigns/:id');
+  console.log('- DELETE /campaigns/:id');
+  console.log('- POST /campaigns/:id/start');
+  console.log('- POST /campaigns/:id/pause');
+  console.log('- POST /send-email');
+  console.log('- POST /send-sms');
 });

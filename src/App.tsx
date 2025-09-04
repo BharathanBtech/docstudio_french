@@ -3,7 +3,8 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { LanguageProvider } from './contexts/LanguageContext';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import LoginPage from './pages/LoginPage';
-import DashboardPage from './pages/DashboardPage';
+import CampaignsDashboard from './pages/CampaignsDashboard';
+import CampaignDetailsPage from './pages/CampaignDetailsPage';
 import './styles/global.css';
 import './styles/components.css';
 
@@ -35,19 +36,27 @@ const AppRoutes: React.FC = () => {
     <Routes>
       <Route 
         path="/login" 
-        element={isAuthenticated ? <Navigate to="/dashboard" replace /> : <LoginPage />} 
+        element={isAuthenticated ? <Navigate to="/campaigns" replace /> : <LoginPage />} 
       />
       <Route 
-        path="/dashboard" 
+        path="/campaigns" 
         element={
           <ProtectedRoute>
-            <DashboardPage />
+            <CampaignsDashboard />
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/campaigns/:id" 
+        element={
+          <ProtectedRoute>
+            <CampaignDetailsPage />
           </ProtectedRoute>
         } 
       />
       <Route 
         path="/" 
-        element={<Navigate to={isAuthenticated ? "/dashboard" : "/login"} replace />} 
+        element={<Navigate to={isAuthenticated ? "/campaigns" : "/login"} replace />} 
       />
     </Routes>
   );
