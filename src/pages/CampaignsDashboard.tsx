@@ -127,13 +127,14 @@ const CampaignsDashboard: React.FC = () => {
         boxShadow: 'var(--shadow-sm)'
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-4)' }}>
-          <h1 style={{ 
-            color: 'var(--primary-color)', 
-            fontSize: 'var(--font-size-2xl)',
-            margin: 0
-          }}>
-            DocStudio
-          </h1>
+          <img 
+            src="/images/docstudio-logo.png" 
+            alt="DocStudio Logo" 
+            style={{
+              height: '40px',
+              width: 'auto'
+            }}
+          />
           <span style={{ color: 'var(--gray-500)', fontSize: 'var(--font-size-lg)' }}>
             {t('campaigns.dashboardTitle')}
           </span>

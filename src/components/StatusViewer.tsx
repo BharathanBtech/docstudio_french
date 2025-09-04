@@ -113,7 +113,17 @@ const StatusViewer: React.FC<StatusViewerProps> = ({ csvData }) => {
         <div className="modal-overlay" onClick={closeModal}>
           <div className="modal" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
-              <h3 className="modal-title">Row Details - {selectedRow.id}</h3>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-3)' }}>
+                <img 
+                  src="/images/docstudio-logo.png" 
+                  alt="DocStudio Logo" 
+                  style={{
+                    height: '20px',
+                    width: 'auto'
+                  }}
+                />
+                <h3 className="modal-title">Row Details - {selectedRow.id}</h3>
+              </div>
               <button className="modal-close" onClick={closeModal}>×</button>
             </div>
             

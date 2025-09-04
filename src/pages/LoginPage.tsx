@@ -56,13 +56,17 @@ const LoginPage: React.FC = () => {
         boxShadow: 'var(--shadow-xl)'
       }}>
         <div className="card-header" style={{ textAlign: 'center', borderBottom: 'none' }}>
-          <h1 style={{ 
-            color: 'var(--primary-color)', 
-            fontSize: 'var(--font-size-3xl)',
-            marginBottom: 'var(--spacing-2)'
-          }}>
-            DocStudio
-          </h1>
+          <div style={{ marginBottom: 'var(--spacing-4)' }}>
+            <img 
+              src="/images/docstudio-logo.png" 
+              alt="DocStudio Logo" 
+              style={{
+                height: '60px',
+                width: 'auto',
+                marginBottom: 'var(--spacing-3)'
+              }}
+            />
+          </div>
           <p style={{ color: 'var(--gray-600)', margin: 0 }}>
             {t('auth.welcome')}
           </p>
