@@ -132,6 +132,27 @@
     "creating": "Création...",
     "createCampaign": "Créer la campagne"
   },
+  "details": {
+    "title": "Détails de la campagne",
+    "backToCampaigns": "Retour aux campagnes",
+    "notFound": "Campagne introuvable",
+    "campaignInformation": "Informations de la campagne",
+    "description": "Description",
+    "noDescription": "Aucune description fournie",
+    "createdBy": "Créé par",
+    "createdOn": "Créé le",
+    "lastUpdated": "Dernière mise à jour",
+    "templateConfiguration": "Configuration des modèles",
+    "id": "ID",
+    "notConfigured": "Non configuré",
+    "noId": "Aucun ID",
+    "campaignStatistics": "Statistiques de la campagne",
+    "total": "Total",
+    "success": "Succès",
+    "failed": "Échec",
+    "bounced": "Rebondi",
+    "smsSent": "SMS envoyé"
+  },
   "status": {
     "pending": "En attente",
     "success": "Succès",

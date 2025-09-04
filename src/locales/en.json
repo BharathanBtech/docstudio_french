@@ -132,6 +132,27 @@
     "creating": "Creating...",
     "createCampaign": "Create Campaign"
   },
+  "details": {
+    "title": "Campaign Details",
+    "backToCampaigns": "Back to Campaigns",
+    "notFound": "Campaign not found",
+    "campaignInformation": "Campaign Information",
+    "description": "Description",
+    "noDescription": "No description provided",
+    "createdBy": "Created By",
+    "createdOn": "Created On",
+    "lastUpdated": "Last Updated",
+    "templateConfiguration": "Template Configuration",
+    "id": "ID",
+    "notConfigured": "Not configured",
+    "noId": "No ID",
+    "campaignStatistics": "Campaign Statistics",
+    "total": "Total",
+    "success": "Success",
+    "failed": "Failed",
+    "bounced": "Bounced",
+    "smsSent": "SMS Sent"
+  },
   "status": {
     "pending": "Pending",
     "success": "Success",

@@ -29,7 +29,7 @@ const CampaignDetailsPage: React.FC = () => {
       setCampaign(campaignData);
     } catch (error) {
       console.error('Error loading campaign:', error);
-      setError('Failed to load campaign details');
+      setError(t('details.loadFailed'));
     } finally {
       setLoading(false);
     }
@@ -41,11 +41,12 @@ const CampaignDetailsPage: React.FC = () => {
 
   const getStatusBadge = (status: string) => {
     const statusConfig = {
-      draft: { class: 'badge-pending', text: 'Draft' },
-      active: { class: 'badge-success', text: 'Active' },
-      paused: { class: 'badge-warning', text: 'Paused' },
-      completed: { class: 'badge-info', text: 'Completed' },
-      failed: { class: 'badge-error', text: 'Failed' }
+      draft: { class: 'badge-pending', text: t('campaigns.draft') },
+      active: { class: 'badge-success', text: t('campaigns.active') },
+      paused: { class: 'badge-warning', text: t('campaigns.paused') },
+      completed: { class: 'badge-info', text: t('campaigns.completed') },
+      failed: { class: 'badge-error', text: t('campaigns.failed') },
+      scheduled: { class: 'badge-info', text: t('campaigns.scheduledStatus') }
     };
 
     const config = statusConfig[status as keyof typeof statusConfig] || statusConfig.draft;
@@ -78,12 +79,12 @@ const CampaignDetailsPage: React.FC = () => {
         height: '100vh' 
       }}>
         <div style={{ textAlign: 'center' }}>
-          <h2>Campaign not found</h2>
+          <h2>{t('details.notFound')}</h2>
           <button 
             onClick={() => navigate('/campaigns')}
             className="btn btn-primary"
           >
-            Back to Campaigns
+            {t('details.backToCampaigns')}
           </button>
         </div>
       </div>
@@ -111,13 +112,13 @@ const CampaignDetailsPage: React.FC = () => {
             DocStudio
           </h1>
           <span style={{ color: 'var(--gray-500)', fontSize: 'var(--font-size-lg)' }}>
-            Campaign Details
+            {t('details.title')}
           </span>
         </div>
         
         <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-4)' }}>
           <span style={{ color: 'var(--gray-600)' }}>
-            Welcome, {user?.name}
+            {t('auth.welcomeUser', { name: user?.name })}
           </span>
           <button
             onClick={handleLogout}
@@ -137,7 +138,7 @@ const CampaignDetailsPage: React.FC = () => {
             className="btn btn-secondary"
             style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-2)' }}
           >
-            ← Back to Campaigns
+            ← {t('details.backToCampaigns')}
           </button>
         </div>
 
@@ -167,7 +168,7 @@ const CampaignDetailsPage: React.FC = () => {
               {/* Campaign Information */}
               <div>
                 <h4 style={{ marginBottom: 'var(--spacing-3)', color: 'var(--gray-700)' }}>
-                  Campaign Information
+                  {t('details.campaignInformation')}
                 </h4>
                 <div style={{ 
                   display: 'grid', 
@@ -176,16 +177,16 @@ const CampaignDetailsPage: React.FC = () => {
                 }}>
                   <div>
                     <label style={{ fontSize: 'var(--font-size-sm)', color: 'var(--gray-500)' }}>
-                      Description
+                      {t('details.description')}
                     </label>
                     <div style={{ marginTop: 'var(--spacing-1)' }}>
-                      {campaign.description || 'No description provided'}
+                      {campaign.description || t('details.noDescription')}
                     </div>
                   </div>
                   
                   <div>
                     <label style={{ fontSize: 'var(--font-size-sm)', color: 'var(--gray-500)' }}>
-                      Created By
+                      {t('details.createdBy')}
                     </label>
                     <div style={{ marginTop: 'var(--spacing-1)' }}>
                       {campaign.createdBy}
@@ -194,7 +195,7 @@ const CampaignDetailsPage: React.FC = () => {
                   
                   <div>
                     <label style={{ fontSize: 'var(--font-size-sm)', color: 'var(--gray-500)' }}>
-                      Created On
+                      {t('details.createdOn')}
                     </label>
                     <div style={{ marginTop: 'var(--spacing-1)' }}>
                       {formatDate(campaign.createdAt)}
@@ -203,7 +204,7 @@ const CampaignDetailsPage: React.FC = () => {
                   
                   <div>
                     <label style={{ fontSize: 'var(--font-size-sm)', color: 'var(--gray-500)' }}>
-                      Last Updated
+                      {t('details.lastUpdated')}
                     </label>
                     <div style={{ marginTop: 'var(--spacing-1)' }}>
                       {formatDate(campaign.updatedAt)}
@@ -215,7 +216,7 @@ const CampaignDetailsPage: React.FC = () => {
               {/* Template Configuration */}
               <div>
                 <h4 style={{ marginBottom: 'var(--spacing-3)', color: 'var(--gray-700)' }}>
-                  Template Configuration
+                  {t('details.templateConfiguration')}
                 </h4>
                 <div style={{ 
                   display: 'grid', 
@@ -224,45 +225,45 @@ const CampaignDetailsPage: React.FC = () => {
                 }}>
                   <div>
                     <label style={{ fontSize: 'var(--font-size-sm)', color: 'var(--gray-500)' }}>
-                      Email Template
+                      {t('campaigns.emailTemplate')}
                     </label>
                     <div style={{ marginTop: 'var(--spacing-1)', fontWeight: '500' }}>
                       {campaign.emailTemplateName}
                     </div>
                     <div style={{ fontSize: 'var(--font-size-sm)', color: 'var(--gray-500)' }}>
-                      ID: {campaign.emailTemplateId}
+                      {t('details.id')}: {campaign.emailTemplateId}
                     </div>
                   </div>
                   
                   <div>
                     <label style={{ fontSize: 'var(--font-size-sm)', color: 'var(--gray-500)' }}>
-                      SMS Failover
+                      {t('campaigns.smsFailover')}
                     </label>
                     <div style={{ marginTop: 'var(--spacing-1)' }}>
                       {campaign.enableSmsFailover ? (
-                        <span style={{ color: 'var(--success-color)' }}>✓ Enabled</span>
+                        <span style={{ color: 'var(--success-color)' }}>✓ {t('campaigns.enabled')}</span>
                       ) : (
-                        <span style={{ color: 'var(--gray-500)' }}>Disabled</span>
+                        <span style={{ color: 'var(--gray-500)' }}>{t('campaigns.disabled')}</span>
                       )}
                     </div>
                   </div>
                   
                   <div>
                     <label style={{ fontSize: 'var(--font-size-sm)', color: 'var(--gray-500)' }}>
-                      SMS Template
+                      {t('campaigns.smsTemplate')}
                     </label>
                     <div style={{ marginTop: 'var(--spacing-1)', fontWeight: '500' }}>
                       {campaign.enableSmsFailover && campaign.smsTemplateName ? (
                         campaign.smsTemplateName
                       ) : (
-                        <span style={{ color: 'var(--gray-400)', fontStyle: 'italic' }}>Not configured</span>
+                        <span style={{ color: 'var(--gray-400)', fontStyle: 'italic' }}>{t('details.notConfigured')}</span>
                       )}
                     </div>
                     <div style={{ fontSize: 'var(--font-size-sm)', color: 'var(--gray-500)' }}>
                       {campaign.enableSmsFailover && campaign.smsTemplateId ? (
-                        `ID: ${campaign.smsTemplateId}`
+                        `${t('details.id')}: ${campaign.smsTemplateId}`
                       ) : (
-                        <span style={{ color: 'var(--gray-400)', fontStyle: 'italic' }}>No ID</span>
+                        <span style={{ color: 'var(--gray-400)', fontStyle: 'italic' }}>{t('details.noId')}</span>
                       )}
                     </div>
                   </div>
@@ -272,7 +273,7 @@ const CampaignDetailsPage: React.FC = () => {
               {/* Campaign Statistics */}
               <div>
                 <h4 style={{ marginBottom: 'var(--spacing-3)', color: 'var(--gray-700)' }}>
-                  Campaign Statistics
+                  {t('details.campaignStatistics')}
                 </h4>
                 <div style={{
                   display: 'grid',
@@ -286,32 +287,32 @@ const CampaignDetailsPage: React.FC = () => {
                     <div style={{ fontSize: 'var(--font-size-2xl)', fontWeight: 'bold', color: 'var(--gray-900)' }}>
                       {campaign.totalRecords}
                     </div>
-                    <div style={{ fontSize: 'var(--font-size-sm)', color: 'var(--gray-600)' }}>Total</div>
+                    <div style={{ fontSize: 'var(--font-size-sm)', color: 'var(--gray-600)' }}>{t('details.total')}</div>
                   </div>
                   <div style={{ textAlign: 'center' }}>
                     <div style={{ fontSize: 'var(--font-size-2xl)', fontWeight: 'bold', color: 'var(--success-color)' }}>
                       {campaign.successCount}
                     </div>
-                    <div style={{ fontSize: 'var(--font-size-sm)', color: 'var(--gray-600)' }}>Success</div>
+                    <div style={{ fontSize: 'var(--font-size-sm)', color: 'var(--gray-600)' }}>{t('details.success')}</div>
                   </div>
                   <div style={{ textAlign: 'center' }}>
                     <div style={{ fontSize: 'var(--font-size-2xl)', fontWeight: 'bold', color: 'var(--error-color)' }}>
                       {campaign.failedCount}
                     </div>
-                    <div style={{ fontSize: 'var(--font-size-sm)', color: 'var(--gray-600)' }}>Failed</div>
+                    <div style={{ fontSize: 'var(--font-size-sm)', color: 'var(--gray-600)' }}>{t('details.failed')}</div>
                   </div>
                   <div style={{ textAlign: 'center' }}>
                     <div style={{ fontSize: 'var(--font-size-2xl)', fontWeight: 'bold', color: 'var(--warning-color)' }}>
                       {campaign.bouncedCount}
                     </div>
-                    <div style={{ fontSize: 'var(--font-size-sm)', color: 'var(--gray-600)' }}>Bounced</div>
+                    <div style={{ fontSize: 'var(--font-size-sm)', color: 'var(--gray-600)' }}>{t('details.bounced')}</div>
                   </div>
                   {campaign.enableSmsFailover && (
                     <div style={{ textAlign: 'center' }}>
                       <div style={{ fontSize: 'var(--font-size-2xl)', fontWeight: 'bold', color: 'var(--info-color)' }}>
                         {campaign.smsSentCount}
                       </div>
-                      <div style={{ fontSize: 'var(--font-size-sm)', color: 'var(--gray-600)' }}>SMS Sent</div>
+                      <div style={{ fontSize: 'var(--font-size-sm)', color: 'var(--gray-600)' }}>{t('details.smsSent')}</div>
                     </div>
                   )}
                 </div>
