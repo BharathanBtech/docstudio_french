@@ -1,7 +1,8 @@
 :root {
   /* DocStudio Theme Colors */
   --primary-color:rgb(255, 222, 89);
-  --primary-hover: #1d4ed8;
+  --primary-hover: #e6c25a;
+  --primary-dark: #d4b73a;
   --secondary-color: #64748b;
   --accent-color: #f59e0b;
   --success-color: #10b981;
@@ -118,7 +119,7 @@ a {
 }
 
 a:hover {
-  color: var(--primary-hover);
+  color: var(--gray-700);
 }
 
 /* Buttons */
@@ -143,7 +144,7 @@ input, textarea, select {
 input:focus, textarea:focus, select:focus {
   outline: none;
   border-color: var(--primary-color);
-  box-shadow: 0 0 0 3px rgb(37 99 235 / 0.1);
+  box-shadow: 0 0 0 3px rgb(255 222 89 / 0.2);
 }
 
 /* Utility Classes */

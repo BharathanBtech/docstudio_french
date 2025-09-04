@@ -190,31 +190,12 @@ const LoginPage: React.FC = () => {
           <button
             type="submit"
             disabled={loading}
+            className="btn btn-golden btn-lg"
             style={{
               width: '100%',
-              padding: 'var(--spacing-4)',
-              fontSize: 'var(--font-size-lg)',
-              fontWeight: '600',
-              backgroundColor: '#FFD700',
-              color: 'var(--gray-900)',
-              border: 'none',
-              borderRadius: 'var(--radius-lg)',
-              cursor: 'pointer',
               textTransform: 'uppercase',
               letterSpacing: '0.05em',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: 'var(--spacing-2)',
-              transition: 'all 0.2s ease'
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = '#FFED4E';
-              e.currentTarget.style.transform = 'translateY(-2px)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = '#FFD700';
-              e.currentTarget.style.transform = 'translateY(0)';
+              fontSize: 'var(--font-size-lg)'
             }}
           >
             {loading ? t('auth.loggingIn') : t('auth.logMeIn')}
