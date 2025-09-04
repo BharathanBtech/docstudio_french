@@ -18,12 +18,20 @@
     "login": "Connexion",
     "logout": "Déconnexion",
     "email": "Email",
+    "username": "Nom d'utilisateur",
     "password": "Mot de passe",
     "loginButton": "Se connecter",
     "loginError": "Email ou mot de passe invalide",
     "welcome": "Bienvenue sur DocStudio",
+    "welcomeBack": "Bon retour ! Entrez vos détails pour vous connecter",
     "loginSubtitle": "Connectez-vous à votre compte pour continuer",
-    "welcomeUser": "Bienvenue, {{name}}"
+    "welcomeUser": "Bienvenue, {{name}}",
+    "forgotPassword": "Mot de passe oublié",
+    "logMeIn": "CONNECTEZ-MOI",
+    "loggingIn": "Connexion en cours...",
+    "demoCredentials": "Identifiants de démonstration :",
+    "demoEmail": "Email : admin@docstudio.com",
+    "demoPassword": "Mot de passe : password"
   },
   "dashboard": {
     "title": "Tableau de bord",

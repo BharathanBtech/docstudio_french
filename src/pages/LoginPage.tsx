@@ -85,7 +85,7 @@ const LoginPage: React.FC = () => {
           margin: '0 0 var(--spacing-8) 0',
           fontWeight: '500'
         }}>
-          Welcome Back! Enter your details to login
+          {t('auth.welcomeBack')}
         </p>
 
         <form onSubmit={handleSubmit} style={{ textAlign: 'left' }}>
@@ -98,7 +98,7 @@ const LoginPage: React.FC = () => {
               color: 'var(--gray-700)',
               marginBottom: 'var(--spacing-2)'
             }}>
-              Username
+              {t('auth.username')}
             </label>
             <input
               type="email"
@@ -139,7 +139,7 @@ const LoginPage: React.FC = () => {
               color: 'var(--gray-700)',
               marginBottom: 'var(--spacing-2)'
             }}>
-              Password
+              {t('auth.password')}
             </label>
             <input
               type="password"
@@ -182,7 +182,7 @@ const LoginPage: React.FC = () => {
               textDecoration: 'underline',
               cursor: 'pointer'
             }}>
-              Forgot Password
+              {t('auth.forgotPassword')}
             </a>
           </div>
 
@@ -217,7 +217,7 @@ const LoginPage: React.FC = () => {
               e.currentTarget.style.transform = 'translateY(0)';
             }}
           >
-            {loading ? t('auth.loggingIn') : 'LOG ME IN'}
+            {loading ? t('auth.loggingIn') : t('auth.logMeIn')}
             {!loading && (
               <span style={{ fontSize: 'var(--font-size-lg)' }}>→</span>
             )}
@@ -247,9 +247,9 @@ const LoginPage: React.FC = () => {
             fontSize: 'var(--font-size-sm)',
             color: 'var(--gray-600)'
           }}>
-            <strong>Demo Credentials:</strong><br />
-            Email: admin@docstudio.com<br />
-            Password: password
+            <strong>{t('auth.demoCredentials')}</strong><br />
+            {t('auth.demoEmail')}<br />
+            {t('auth.demoPassword')}
           </div>
         </form>
       </div>
