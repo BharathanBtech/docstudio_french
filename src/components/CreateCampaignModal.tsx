@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { EmailTemplate, SmsTemplate, CsvRow, CreateCampaignRequest } from '../types';
+import { EmailTemplate, SmsTemplate, CreateCampaignRequest, CsvRow } from '../types';
 import apiService from '../services/api';
 import { parseCsvFile, validateCsvData } from '../utils/csvParser';
+import { useLanguage } from '../contexts/LanguageContext';
 
 interface CreateCampaignModalProps {
   onClose: () => void;
@@ -28,6 +29,8 @@ const CreateCampaignModal: React.FC<CreateCampaignModalProps> = ({ onClose, onSu
   const [loading, setLoading] = useState(false);
   const [templatesLoading, setTemplatesLoading] = useState(true);
   const [error, setError] = useState('');
+
+  const { t } = useLanguage();
 
   useEffect(() => {
     console.log('[CreateCampaignModal] useEffect triggered - component mounted');
@@ -413,7 +416,7 @@ const CreateCampaignModal: React.FC<CreateCampaignModalProps> = ({ onClose, onSu
               {/* Campaign Scheduling */}
               <div>
                 <h4 style={{ marginBottom: 'var(--spacing-4)', color: 'var(--gray-700)' }}>
-                  Campaign Scheduling
+                  {t('campaigns.campaignScheduling')}
                 </h4>
                 <div style={{ display: 'grid', gap: 'var(--spacing-4)' }}>
                   
@@ -427,11 +430,11 @@ const CreateCampaignModal: React.FC<CreateCampaignModalProps> = ({ onClose, onSu
                         style={{ width: 'auto' }}
                       />
                       <span className="form-label" style={{ margin: 0 }}>
-                        Send Immediately
+                        {t('campaigns.sendImmediately')}
                       </span>
                     </label>
                     <div className="form-help">
-                      Campaign will be sent as soon as it's created
+                      {t('campaigns.sendImmediatelyHelp')}
                     </div>
                   </div>
 
@@ -445,11 +448,11 @@ const CreateCampaignModal: React.FC<CreateCampaignModalProps> = ({ onClose, onSu
                         style={{ width: 'auto' }}
                       />
                       <span className="form-label" style={{ margin: 0 }}>
-                        Schedule for Later
+                        {t('campaigns.scheduleForLater')}
                       </span>
                     </label>
                     <div className="form-help">
-                      Campaign will be sent at the specified date and time
+                      {t('campaigns.scheduleForLaterHelp')}
                     </div>
                   </div>
 
@@ -465,7 +468,7 @@ const CreateCampaignModal: React.FC<CreateCampaignModalProps> = ({ onClose, onSu
                     }}>
                       <div className="form-group">
                         <label htmlFor="scheduledDate" className="form-label">
-                          Date *
+                          {t('campaigns.date')} *
                         </label>
                         <input
                           type="date"
@@ -487,7 +490,7 @@ const CreateCampaignModal: React.FC<CreateCampaignModalProps> = ({ onClose, onSu
 
                       <div className="form-group">
                         <label htmlFor="scheduledTime" className="form-label">
-                          Time *
+                          {t('campaigns.time')} *
                         </label>
                         <input
                           type="time"
@@ -508,7 +511,7 @@ const CreateCampaignModal: React.FC<CreateCampaignModalProps> = ({ onClose, onSu
 
                       <div className="form-group" style={{ gridColumn: '1 / -1' }}>
                         <label htmlFor="timezone" className="form-label">
-                          Timezone
+                          {t('campaigns.timezone')}
                         </label>
                         <select
                           id="timezone"
@@ -528,7 +531,7 @@ const CreateCampaignModal: React.FC<CreateCampaignModalProps> = ({ onClose, onSu
                           <option value="Asia/Kolkata">India</option>
                         </select>
                         <div className="form-help">
-                          Campaign will be sent according to this timezone
+                          {t('campaigns.timezoneHelp')}
                         </div>
                       </div>
                     </div>

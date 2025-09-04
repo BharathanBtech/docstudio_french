@@ -276,24 +276,24 @@ class ApiService {
     }
   }
 
-  async updateCampaign(id: string, request: Partial<CreateCampaignRequest>): Promise<Campaign> {
-    // You'll need to implement this endpoint in Activepieces
-    throw new Error('Update campaign endpoint not yet implemented in Activepieces');
+  async updateCampaign(_id: string, _request: Partial<CreateCampaignRequest>): Promise<Campaign> {
+    // TODO: Implement update campaign endpoint in Activepieces
+    throw new Error('Update campaign not yet implemented');
   }
 
-  async deleteCampaign(id: string): Promise<void> {
-    // You'll need to implement this endpoint in Activepieces
-    throw new Error('Delete campaign endpoint not yet implemented in Activepieces');
+  async deleteCampaign(_id: string): Promise<void> {
+    // TODO: Implement delete campaign endpoint in Activepieces
+    throw new Error('Delete campaign not yet implemented');
   }
 
-  async startCampaign(id: string): Promise<void> {
-    // You'll need to implement this endpoint in Activepieces
-    throw new Error('Start campaign endpoint not yet implemented in Activepieces');
+  async startCampaign(_id: string): Promise<void> {
+    // TODO: Implement start campaign endpoint in Activepieces
+    throw new Error('Start campaign not yet implemented');
   }
 
-  async pauseCampaign(id: string): Promise<void> {
-    // You'll need to implement this endpoint in Activepieces
-    throw new Error('Pause campaign endpoint not yet implemented in Activepieces');
+  async pauseCampaign(_id: string): Promise<void> {
+    // TODO: Implement pause campaign endpoint in Activepieces
+    throw new Error('Pause campaign not yet implemented');
   }
 
   async sendEmail(request: SendEmailRequest): Promise<TransactionResult> {

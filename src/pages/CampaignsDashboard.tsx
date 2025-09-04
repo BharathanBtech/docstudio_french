@@ -36,7 +36,7 @@ const CampaignsDashboard: React.FC = () => {
       setTotalCampaigns(campaignsData.length);
     } catch (error) {
       console.error('CampaignsDashboard: Error loading campaigns:', error);
-      setError('Failed to load campaigns');
+      setError(t('errors.loadCampaignsFailed'));
     } finally {
       setLoading(false);
     }
@@ -50,7 +50,7 @@ const CampaignsDashboard: React.FC = () => {
       loadCampaigns(); // Refresh the list
     } catch (error) {
       console.error('CampaignsDashboard: Error creating campaign:', error);
-      setError('Failed to create campaign');
+      setError(t('errors.createCampaignFailed'));
     }
   };
 
@@ -81,11 +81,12 @@ const CampaignsDashboard: React.FC = () => {
 
   const getStatusBadge = (status: string) => {
     const statusConfig = {
-      draft: { class: 'badge-pending', text: 'Draft' },
-      active: { class: 'badge-success', text: 'Active' },
-      paused: { class: 'badge-warning', text: 'Paused' },
-      completed: { class: 'badge-info', text: 'Completed' },
-      failed: { class: 'badge-error', text: 'Failed' }
+      draft: { class: 'badge-pending', text: t('campaigns.draft') },
+      active: { class: 'badge-success', text: t('campaigns.active') },
+      paused: { class: 'badge-warning', text: t('campaigns.paused') },
+      completed: { class: 'badge-info', text: t('campaigns.completed') },
+      failed: { class: 'badge-error', text: t('campaigns.failed') },
+      scheduled: { class: 'badge-info', text: t('campaigns.scheduledStatus') }
     };
 
     const config = statusConfig[status as keyof typeof statusConfig] || statusConfig.draft;
@@ -134,13 +135,13 @@ const CampaignsDashboard: React.FC = () => {
             DocStudio
           </h1>
           <span style={{ color: 'var(--gray-500)', fontSize: 'var(--font-size-lg)' }}>
-            Campaigns Dashboard
+            {t('campaigns.dashboardTitle')}
           </span>
         </div>
         
         <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-4)' }}>
           <span style={{ color: 'var(--gray-600)' }}>
-            Welcome, {user?.name}
+            {t('auth.welcomeUser', { name: user?.name })}
           </span>
           <button
             onClick={handleLogout}
@@ -162,10 +163,10 @@ const CampaignsDashboard: React.FC = () => {
         }}>
           <div>
             <h2 style={{ margin: 0, color: 'var(--gray-900)' }}>
-              Campaigns
+              {t('campaigns.title')}
             </h2>
             <p style={{ margin: 'var(--spacing-2) 0 0 0', color: 'var(--gray-600)' }}>
-              Manage your email campaigns and track their performance
+              {t('campaigns.subtitle')}
             </p>
           </div>
           
@@ -173,7 +174,7 @@ const CampaignsDashboard: React.FC = () => {
             onClick={() => setShowCreateModal(true)}
             className="btn btn-primary btn-lg"
           >
-            + Create New Campaign
+            + {t('campaigns.createNew')}
           </button>
         </div>
 
@@ -192,12 +193,12 @@ const CampaignsDashboard: React.FC = () => {
               justifyContent: 'space-between', 
               alignItems: 'center' 
             }}>
-              <h3 className="card-title">All Campaigns ({totalCampaigns})</h3>
+              <h3 className="card-title">{t('campaigns.allCampaigns')} ({totalCampaigns})</h3>
               
               {/* Page Size Selector */}
               <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-3)' }}>
                 <label style={{ fontSize: 'var(--font-size-sm)', color: 'var(--gray-600)' }}>
-                  Show:
+                  {t('campaigns.showPerPage')}:
                 </label>
                 <select
                   value={pageSize}
@@ -215,7 +216,7 @@ const CampaignsDashboard: React.FC = () => {
                   <option value={100}>100</option>
                 </select>
                 <span style={{ fontSize: 'var(--font-size-sm)', color: 'var(--gray-600)' }}>
-                  per page
+                  {t('campaigns.perPage')}
                 </span>
               </div>
             </div>
@@ -232,10 +233,10 @@ const CampaignsDashboard: React.FC = () => {
                   📧
                 </div>
                 <h4 style={{ margin: '0 0 var(--spacing-2) 0', color: 'var(--gray-700)' }}>
-                  No campaigns yet
+                  {t('campaigns.noCampaigns')}
                 </h4>
                 <p style={{ margin: 0, color: 'var(--gray-500)' }}>
-                  Create your first email campaign to get started
+                  {t('campaigns.noCampaignsSubtitle')}
                 </p>
               </div>
             ) : (
@@ -244,15 +245,15 @@ const CampaignsDashboard: React.FC = () => {
                   <table className="table">
                     <thead>
                       <tr>
-                        <th>Campaign Name</th>
-                        <th>Status</th>
-                        <th>Email Template</th>
-                        <th>SMS Failover</th>
-                        <th>Scheduling</th>
-                        <th>Records</th>
-                        <th>Success Rate</th>
-                        <th>Created</th>
-                        <th>Actions</th>
+                        <th>{t('campaigns.campaignName')}</th>
+                        <th>{t('campaigns.status')}</th>
+                        <th>{t('campaigns.emailTemplate')}</th>
+                        <th>{t('campaigns.smsFailover')}</th>
+                        <th>{t('campaigns.scheduling')}</th>
+                        <th>{t('campaigns.records')}</th>
+                        <th>{t('campaigns.successRate')}</th>
+                        <th>{t('campaigns.created')}</th>
+                        <th>{t('campaigns.actions')}</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -282,17 +283,17 @@ const CampaignsDashboard: React.FC = () => {
                           </td>
                           <td>
                             {campaign.enableSmsFailover ? (
-                              <span style={{ color: 'var(--success-color)' }}>✓ Enabled</span>
+                              <span style={{ color: 'var(--success-color)' }}>✓ {t('campaigns.enabled')}</span>
                             ) : (
-                              <span style={{ color: 'var(--gray-500)' }}>Disabled</span>
+                              <span style={{ color: 'var(--gray-500)' }}>{t('campaigns.disabled')}</span>
                             )}
                           </td>
                           <td>
                             {campaign.sendImmediately ? (
-                              <span style={{ color: 'var(--info-color)' }}>Immediate</span>
+                              <span style={{ color: 'var(--info-color)' }}>{t('campaigns.immediate')}</span>
                             ) : campaign.scheduledAt ? (
                               <div style={{ fontSize: 'var(--font-size-sm)' }}>
-                                <div style={{ color: 'var(--success-color)' }}>Scheduled</div>
+                                <div style={{ color: 'var(--success-color)' }}>{t('campaigns.scheduled')}</div>
                                 <div style={{ color: 'var(--gray-600)', fontSize: 'var(--font-size-xs)' }}>
                                   {new Date(campaign.scheduledAt).toLocaleDateString()}
                                 </div>
@@ -301,14 +302,14 @@ const CampaignsDashboard: React.FC = () => {
                                 </div>
                               </div>
                             ) : (
-                              <span style={{ color: 'var(--gray-500)' }}>Not Set</span>
+                              <span style={{ color: 'var(--gray-500)' }}>{t('campaigns.notSet')}</span>
                             )}
                           </td>
                           <td>
                             <div style={{ textAlign: 'center' }}>
                               <div style={{ fontWeight: '600' }}>{campaign.totalRecords}</div>
                               <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--gray-500)' }}>
-                                Total
+                                {t('campaigns.total')}
                               </div>
                             </div>
                           </td>
@@ -330,7 +331,7 @@ const CampaignsDashboard: React.FC = () => {
                               onClick={() => handleViewCampaign(campaign.id)}
                               className="btn btn-sm btn-primary"
                             >
-                              View Details
+                              {t('campaigns.viewDetails')}
                             </button>
                           </td>
                         </tr>
@@ -350,7 +351,7 @@ const CampaignsDashboard: React.FC = () => {
                     borderTop: '1px solid var(--gray-200)'
                   }}>
                     <div style={{ fontSize: 'var(--font-size-sm)', color: 'var(--gray-600)' }}>
-                      Showing {startIndex + 1} to {Math.min(endIndex, totalCampaigns)} of {totalCampaigns} campaigns
+                      {t('campaigns.showing')} {startIndex + 1} {t('campaigns.to')} {Math.min(endIndex, totalCampaigns)} {t('campaigns.of')} {totalCampaigns} {t('campaigns.campaigns')}
                     </div>
                     
                     <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-2)' }}>
@@ -361,7 +362,7 @@ const CampaignsDashboard: React.FC = () => {
                         className="btn btn-sm btn-secondary"
                         style={{ minWidth: '80px' }}
                       >
-                        Previous
+                        {t('campaigns.previous')}
                       </button>
                       
                       {/* Page Numbers */}
@@ -385,7 +386,7 @@ const CampaignsDashboard: React.FC = () => {
                         className="btn btn-sm btn-secondary"
                         style={{ minWidth: '80px' }}
                       >
-                        Next
+                        {t('campaigns.next')}
                       </button>
                     </div>
                   </div>
