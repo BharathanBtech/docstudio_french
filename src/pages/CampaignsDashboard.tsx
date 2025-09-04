@@ -128,11 +128,13 @@ const CampaignsDashboard: React.FC = () => {
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-4)' }}>
           <img 
-            src="/images/docstudio-logo.png" 
+            src="/images/new-logo.png" 
             alt="DocStudio Logo" 
             style={{
-              height: '40px',
-              width: 'auto'
+              height: '80px',
+              width: 'auto',
+              transform: 'rotate(-5deg)',
+              transition: 'transform 0.3s ease'
             }}
           />
           <span style={{ color: 'var(--gray-500)', fontSize: 'var(--font-size-lg)' }}>

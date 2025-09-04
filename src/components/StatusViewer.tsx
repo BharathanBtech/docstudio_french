@@ -114,12 +114,14 @@ const StatusViewer: React.FC<StatusViewerProps> = ({ csvData }) => {
           <div className="modal" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
               <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-3)' }}>
-                <img 
-                  src="/images/docstudio-logo.png" 
+                                <img 
+                  src="/images/new-logo.png" 
                   alt="DocStudio Logo" 
                   style={{
-                    height: '20px',
-                    width: 'auto'
+                    height: '40px',
+                    width: 'auto',
+                    transform: 'rotate(-5deg)',
+                    transition: 'transform 0.3s ease'
                   }}
                 />
                 <h3 className="modal-title">Row Details - {selectedRow.id}</h3>

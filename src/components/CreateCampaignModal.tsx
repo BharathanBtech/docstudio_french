@@ -184,11 +184,13 @@ const CreateCampaignModal: React.FC<CreateCampaignModalProps> = ({ onClose, onSu
         <div className="modal-header">
           <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-3)' }}>
             <img 
-              src="/images/docstudio-logo.png" 
+              src="/images/new-logo.png" 
               alt="DocStudio Logo" 
               style={{
-                height: '24px',
-                width: 'auto'
+                height: '48px',
+                width: 'auto',
+                transform: 'rotate(-5deg)',
+                transition: 'transform 0.3s ease'
               }}
             />
             <h3 className="modal-title">{t('campaigns.modalTitle')}</h3>
