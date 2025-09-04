@@ -232,7 +232,7 @@ const CreateCampaignModal: React.FC<CreateCampaignModalProps> = ({ onClose, onSu
                   
                   <div className="form-group">
                     <label htmlFor="campaignDescription" className="form-label">
-                      {t('campaigns.description')}
+                      {t('campaigns.descriptionLabel')}
                     </label>
                     <textarea
                       id="campaignDescription"

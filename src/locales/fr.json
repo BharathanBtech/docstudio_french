@@ -104,7 +104,7 @@
     "campaignInformation": "Informations de la campagne",
     "campaignNameLabel": "Nom de la campagne *",
     "campaignNamePlaceholder": "Entrez le nom de la campagne",
-    "descriptionLabel": "Description",
+    "descriptionLabel": "Descriptif",
     "descriptionPlaceholder": "Entrez la description de la campagne",
     "templateConfiguration": "Configuration des modèles",
     "emailTemplateLabel": "Modèle d'email *",
