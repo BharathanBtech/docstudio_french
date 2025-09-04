@@ -136,8 +136,30 @@ class ApiService {
       
       // The webhook returns the campaigns array directly
       if (Array.isArray(response.data)) {
-        console.log('[Campaigns] Campaigns loaded:', response.data);
-        return response.data;
+        // Map snake_case response to camelCase for frontend
+        const mappedCampaigns: Campaign[] = response.data.map((campaign: any) => ({
+          id: campaign.id,
+          name: campaign.name,
+          description: campaign.description,
+          emailTemplateId: campaign.email_template_id,
+          emailTemplateName: campaign.email_template_name,
+          smsTemplateId: campaign.sms_template_id,
+          smsTemplateName: campaign.sms_template_name,
+          enableSmsFailover: campaign.enable_sms_failover,
+          csvData: campaign.csvData || [],
+          status: campaign.status,
+          createdAt: campaign.created_at,
+          updatedAt: campaign.updated_at,
+          createdBy: campaign.created_by,
+          totalRecords: campaign.total_records,
+          successCount: campaign.success_count,
+          failedCount: campaign.failed_count,
+          bouncedCount: campaign.bounced_count,
+          smsSentCount: campaign.sms_sent_count
+        }));
+        
+        console.log('[Campaigns] Mapped campaigns:', mappedCampaigns);
+        return mappedCampaigns;
       } else {
         console.warn('[Campaigns] Unexpected response structure:', response.data);
         return [];
@@ -162,8 +184,31 @@ class ApiService {
       
       // The webhook returns an array with one campaign
       if (Array.isArray(response.data) && response.data.length > 0) {
-        const campaign = response.data[0];
-        console.log('[Campaign] Campaign loaded:', campaign);
+        const rawCampaign = response.data[0];
+        
+        // Map snake_case response to camelCase for frontend
+        const campaign: Campaign = {
+          id: rawCampaign.id,
+          name: rawCampaign.name,
+          description: rawCampaign.description,
+          emailTemplateId: rawCampaign.email_template_id,
+          emailTemplateName: rawCampaign.email_template_name,
+          smsTemplateId: rawCampaign.sms_template_id,
+          smsTemplateName: rawCampaign.sms_template_name,
+          enableSmsFailover: rawCampaign.enable_sms_failover,
+          csvData: rawCampaign.csvData || [],
+          status: rawCampaign.status,
+          createdAt: rawCampaign.created_at,
+          updatedAt: rawCampaign.updated_at,
+          createdBy: rawCampaign.created_by,
+          totalRecords: rawCampaign.total_records,
+          successCount: rawCampaign.success_count,
+          failedCount: rawCampaign.failed_count,
+          bouncedCount: rawCampaign.bounced_count,
+          smsSentCount: rawCampaign.sms_sent_count
+        };
+        
+        console.log('[Campaign] Mapped campaign:', campaign);
         return campaign;
       } else {
         console.warn('[Campaign] No campaign found with ID:', id);
