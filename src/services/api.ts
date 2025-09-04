@@ -155,7 +155,10 @@ class ApiService {
           successCount: campaign.success_count,
           failedCount: campaign.failed_count,
           bouncedCount: campaign.bounced_count,
-          smsSentCount: campaign.sms_sent_count
+          smsSentCount: campaign.sms_sent_count,
+          sendImmediately: campaign.send_immediately !== false, // Default to true if not specified
+          scheduledAt: campaign.scheduled_at,
+          timezone: campaign.timezone
         }));
         
         console.log('[Campaigns] Mapped campaigns:', mappedCampaigns);
@@ -205,7 +208,10 @@ class ApiService {
           successCount: rawCampaign.success_count,
           failedCount: rawCampaign.failed_count,
           bouncedCount: rawCampaign.bounced_count,
-          smsSentCount: rawCampaign.sms_sent_count
+          smsSentCount: rawCampaign.sms_sent_count,
+          sendImmediately: rawCampaign.send_immediately !== false, // Default to true if not specified
+          scheduledAt: rawCampaign.scheduled_at,
+          timezone: rawCampaign.timezone
         };
         
         console.log('[Campaign] Mapped campaign:', campaign);
@@ -248,7 +254,7 @@ class ApiService {
           smsTemplateName: request.smsTemplateName,
           enableSmsFailover: request.enableSmsFailover,
           csvData: request.csvData,
-          status: 'draft',
+          status: request.sendImmediately ? 'draft' : 'scheduled',
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString(),
           createdBy: request.createdBy,
@@ -256,7 +262,10 @@ class ApiService {
           successCount: 0,
           failedCount: 0,
           bouncedCount: 0,
-          smsSentCount: 0
+          smsSentCount: 0,
+          sendImmediately: request.sendImmediately,
+          scheduledAt: request.scheduledAt,
+          timezone: request.timezone
         };
       } else {
         throw new Error('Failed to create campaign');

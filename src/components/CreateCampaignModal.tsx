@@ -16,7 +16,10 @@ const CreateCampaignModal: React.FC<CreateCampaignModalProps> = ({ onClose, onSu
     description: '',
     emailTemplateId: '',
     smsTemplateId: '',
-    enableSmsFailover: false
+    enableSmsFailover: false,
+    sendImmediately: true,
+    scheduledAt: '',
+    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
   });
   
   const [csvData, setCsvData] = useState<CsvRow[]>([]);
@@ -150,7 +153,10 @@ const CreateCampaignModal: React.FC<CreateCampaignModalProps> = ({ onClose, onSu
         smsTemplateName: formData.enableSmsFailover ? getSmsTemplateName(formData.smsTemplateId) : undefined,
         enableSmsFailover: formData.enableSmsFailover,
         createdBy: 'admin@docstudio.com', // You can make this dynamic based on logged-in user
-        csvData
+        csvData,
+        sendImmediately: formData.sendImmediately,
+        scheduledAt: formData.sendImmediately ? undefined : formData.scheduledAt,
+        timezone: formData.sendImmediately ? undefined : formData.timezone
       };
       
       onSubmit(campaignData);
@@ -402,6 +408,132 @@ const CreateCampaignModal: React.FC<CreateCampaignModalProps> = ({ onClose, onSu
                     </div>
                   </div>
                 )}
+              </div>
+
+              {/* Campaign Scheduling */}
+              <div>
+                <h4 style={{ marginBottom: 'var(--spacing-4)', color: 'var(--gray-700)' }}>
+                  Campaign Scheduling
+                </h4>
+                <div style={{ display: 'grid', gap: 'var(--spacing-4)' }}>
+                  
+                  <div className="form-group">
+                    <label style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-3)', cursor: 'pointer' }}>
+                      <input
+                        type="radio"
+                        name="sendOption"
+                        checked={formData.sendImmediately}
+                        onChange={() => setFormData(prev => ({ ...prev, sendImmediately: true }))}
+                        style={{ width: 'auto' }}
+                      />
+                      <span className="form-label" style={{ margin: 0 }}>
+                        Send Immediately
+                      </span>
+                    </label>
+                    <div className="form-help">
+                      Campaign will be sent as soon as it's created
+                    </div>
+                  </div>
+
+                  <div className="form-group">
+                    <label style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-3)', cursor: 'pointer' }}>
+                      <input
+                        type="radio"
+                        name="sendOption"
+                        checked={!formData.sendImmediately}
+                        onChange={() => setFormData(prev => ({ ...prev, sendImmediately: false }))}
+                        style={{ width: 'auto' }}
+                      />
+                      <span className="form-label" style={{ margin: 0 }}>
+                        Schedule for Later
+                      </span>
+                    </label>
+                    <div className="form-help">
+                      Campaign will be sent at the specified date and time
+                    </div>
+                  </div>
+
+                  {!formData.sendImmediately && (
+                    <div style={{ 
+                      display: 'grid', 
+                      gridTemplateColumns: '1fr 1fr',
+                      gap: 'var(--spacing-4)',
+                      padding: 'var(--spacing-4)',
+                      backgroundColor: 'var(--gray-50)',
+                      borderRadius: 'var(--radius-md)',
+                      border: '1px solid var(--gray-200)'
+                    }}>
+                      <div className="form-group">
+                        <label htmlFor="scheduledDate" className="form-label">
+                          Date *
+                        </label>
+                        <input
+                          type="date"
+                          id="scheduledDate"
+                          className="form-input"
+                          value={formData.scheduledAt.split('T')[0] || ''}
+                          onChange={(e) => {
+                            const date = e.target.value;
+                            const time = formData.scheduledAt.split('T')[1] || '12:00';
+                            setFormData(prev => ({ 
+                              ...prev, 
+                              scheduledAt: `${date}T${time}` 
+                            }));
+                          }}
+                          min={new Date().toISOString().split('T')[0]}
+                          required={!formData.sendImmediately}
+                        />
+                      </div>
+
+                      <div className="form-group">
+                        <label htmlFor="scheduledTime" className="form-label">
+                          Time *
+                        </label>
+                        <input
+                          type="time"
+                          id="scheduledTime"
+                          className="form-input"
+                          value={formData.scheduledAt.split('T')[1] || '12:00'}
+                          onChange={(e) => {
+                            const date = formData.scheduledAt.split('T')[0] || new Date().toISOString().split('T')[0];
+                            const time = e.target.value;
+                            setFormData(prev => ({ 
+                              ...prev, 
+                              scheduledAt: `${date}T${time}` 
+                            }));
+                          }}
+                          required={!formData.sendImmediately}
+                        />
+                      </div>
+
+                      <div className="form-group" style={{ gridColumn: '1 / -1' }}>
+                        <label htmlFor="timezone" className="form-label">
+                          Timezone
+                        </label>
+                        <select
+                          id="timezone"
+                          className="form-input"
+                          value={formData.timezone}
+                          onChange={(e) => setFormData(prev => ({ ...prev, timezone: e.target.value }))}
+                        >
+                          <option value="UTC">UTC</option>
+                          <option value="America/New_York">Eastern Time</option>
+                          <option value="America/Chicago">Central Time</option>
+                          <option value="America/Denver">Mountain Time</option>
+                          <option value="America/Los_Angeles">Pacific Time</option>
+                          <option value="Europe/London">London</option>
+                          <option value="Europe/Paris">Paris</option>
+                          <option value="Asia/Tokyo">Tokyo</option>
+                          <option value="Asia/Shanghai">Shanghai</option>
+                          <option value="Asia/Kolkata">India</option>
+                        </select>
+                        <div className="form-help">
+                          Campaign will be sent according to this timezone
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
 

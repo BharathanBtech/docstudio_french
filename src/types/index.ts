@@ -82,9 +82,13 @@ export interface Campaign {
   failedCount: number;
   bouncedCount: number;
   smsSentCount: number;
+  // Scheduling fields
+  sendImmediately: boolean;
+  scheduledAt?: string;
+  timezone?: string;
 }
 
-export type CampaignStatus = 'draft' | 'active' | 'paused' | 'completed' | 'failed';
+export type CampaignStatus = 'draft' | 'active' | 'paused' | 'completed' | 'failed' | 'scheduled';
 
 export interface CreateCampaignRequest {
   name: string;
@@ -96,4 +100,8 @@ export interface CreateCampaignRequest {
   enableSmsFailover: boolean;
   createdBy: string;
   csvData: CsvRow[];
+  // Scheduling fields
+  sendImmediately: boolean;
+  scheduledAt?: string;
+  timezone?: string;
 }

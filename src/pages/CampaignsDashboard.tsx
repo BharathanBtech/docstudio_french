@@ -248,6 +248,7 @@ const CampaignsDashboard: React.FC = () => {
                         <th>Status</th>
                         <th>Email Template</th>
                         <th>SMS Failover</th>
+                        <th>Scheduling</th>
                         <th>Records</th>
                         <th>Success Rate</th>
                         <th>Created</th>
@@ -284,6 +285,23 @@ const CampaignsDashboard: React.FC = () => {
                               <span style={{ color: 'var(--success-color)' }}>✓ Enabled</span>
                             ) : (
                               <span style={{ color: 'var(--gray-500)' }}>Disabled</span>
+                            )}
+                          </td>
+                          <td>
+                            {campaign.sendImmediately ? (
+                              <span style={{ color: 'var(--info-color)' }}>Immediate</span>
+                            ) : campaign.scheduledAt ? (
+                              <div style={{ fontSize: 'var(--font-size-sm)' }}>
+                                <div style={{ color: 'var(--success-color)' }}>Scheduled</div>
+                                <div style={{ color: 'var(--gray-600)', fontSize: 'var(--font-size-xs)' }}>
+                                  {new Date(campaign.scheduledAt).toLocaleDateString()}
+                                </div>
+                                <div style={{ color: 'var(--gray-500)', fontSize: 'var(--font-size-xs)' }}>
+                                  {new Date(campaign.scheduledAt).toLocaleTimeString()}
+                                </div>
+                              </div>
+                            ) : (
+                              <span style={{ color: 'var(--gray-500)' }}>Not Set</span>
                             )}
                           </td>
                           <td>

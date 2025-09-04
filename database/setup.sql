@@ -2,24 +2,28 @@
 -- Run this script to create the necessary tables and indexes
 
 -- Create campaigns table
-CREATE TABLE IF NOT EXISTS campaigns (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    name VARCHAR(255) NOT NULL,
-    description TEXT,
-    email_template_id VARCHAR(255) NOT NULL,
-    email_template_name VARCHAR(255) NOT NULL,
-    sms_template_id VARCHAR(255),
-    sms_template_name VARCHAR(255),
-    enable_sms_failover BOOLEAN DEFAULT false,
-    status VARCHAR(50) DEFAULT 'draft' CHECK (status IN ('draft', 'active', 'paused', 'completed', 'failed')),
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    created_by VARCHAR(255) NOT NULL,
-    total_records INTEGER DEFAULT 0,
-    success_count INTEGER DEFAULT 0,
-    failed_count INTEGER DEFAULT 0,
-    bounced_count INTEGER DEFAULT 0,
-    sms_sent_count INTEGER DEFAULT 0
+CREATE TABLE campaigns (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  name VARCHAR(255) NOT NULL,
+  description TEXT,
+  email_template_id VARCHAR(255) NOT NULL,
+  email_template_name VARCHAR(255) NOT NULL,
+  sms_template_id VARCHAR(255),
+  sms_template_name VARCHAR(255),
+  enable_sms_failover BOOLEAN DEFAULT FALSE,
+  status VARCHAR(50) DEFAULT 'draft' CHECK (status IN ('draft', 'active', 'paused', 'completed', 'failed', 'scheduled')),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  created_by VARCHAR(255) NOT NULL,
+  total_records BIGINT DEFAULT 0,
+  success_count BIGINT DEFAULT 0,
+  failed_count BIGINT DEFAULT 0,
+  bounced_count BIGINT DEFAULT 0,
+  sms_sent_count BIGINT DEFAULT 0,
+  -- Scheduling fields
+  send_immediately BOOLEAN DEFAULT FALSE,
+  scheduled_at TIMESTAMP,
+  timezone TEXT
 );
 
 -- Create campaign_records table to store CSV data
@@ -61,34 +65,102 @@ CREATE TRIGGER update_campaign_records_updated_at
     BEFORE UPDATE ON campaign_records 
     FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
--- Insert sample data (optional)
+-- Insert sample campaigns
 INSERT INTO campaigns (
-    name, 
-    description, 
-    email_template_id, 
-    email_template_name, 
-    status, 
-    created_by, 
-    total_records
+  name, 
+  description, 
+  email_template_id, 
+  email_template_name, 
+  sms_template_id, 
+  sms_template_name, 
+  enable_sms_failover, 
+  status, 
+  created_by, 
+  total_records, 
+  success_count, 
+  failed_count, 
+  bounced_count, 
+  sms_sent_count,
+  send_immediately,
+  scheduled_at,
+  timezone
 ) VALUES 
 (
-    'Welcome Campaign 2024',
-    'Welcome emails for new customers',
-    'sample-template-1',
-    'Welcome Email Template',
-    'completed',
-    'admin@docstudio.com',
-    150
+  'Welcome Campaign', 
+  'Welcome emails for new users', 
+  'welcome-template-001', 
+  'Welcome Email Template', 
+  'welcome-sms-001', 
+  'Welcome SMS Template', 
+  true, 
+  'completed', 
+  'admin@docstudio.com', 
+  1000, 
+  950, 
+  30, 
+  15, 
+  5,
+  true,
+  NULL,
+  NULL
 ),
 (
-    'Newsletter Q1 2024',
-    'Quarterly newsletter for existing customers',
-    'sample-template-2',
-    'Newsletter Template',
-    'active',
-    'admin@docstudio.com',
-    75
-) ON CONFLICT DO NOTHING;
+  'Product Launch', 
+  'Announcing our new product line', 
+  'launch-template-002', 
+  'Product Launch Template', 
+  'launch-sms-002', 
+  'Product Launch SMS', 
+  false, 
+  'active', 
+  'admin@docstudio.com', 
+  500, 
+  200, 
+  10, 
+  5, 
+  0,
+  true,
+  NULL,
+  NULL
+),
+(
+  'Holiday Special', 
+  'Holiday season promotions', 
+  'holiday-template-003', 
+  'Holiday Special Template', 
+  'holiday-sms-003', 
+  'Holiday SMS Template', 
+  true, 
+  'scheduled', 
+  'admin@docstudio.com', 
+  2000, 
+  0, 
+  0, 
+  0, 
+  0,
+  false,
+  '2025-01-15 14:30:00',
+  'America/New_York'
+),
+(
+  'Weekly Newsletter', 
+  'Weekly company updates', 
+  'newsletter-template-004', 
+  'Newsletter Template', 
+  NULL, 
+  NULL, 
+  false, 
+  'draft', 
+  'admin@docstudio.com', 
+  300, 
+  0, 
+  0, 
+  0, 
+  0,
+  false,
+  '2025-01-20 09:00:00',
+  'UTC'
+);
 
 -- Grant permissions (adjust as needed for your setup)
 -- GRANT ALL PRIVILEGES ON TABLE campaigns TO your_app_user;
