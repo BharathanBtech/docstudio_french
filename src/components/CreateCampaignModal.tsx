@@ -158,9 +158,17 @@ const CreateCampaignModal: React.FC<CreateCampaignModalProps> = ({ onClose, onSu
         createdBy: 'admin@docstudio.com', // You can make this dynamic based on logged-in user
         csvData,
         sendImmediately: formData.sendImmediately,
-        scheduledAt: formData.sendImmediately ? undefined : formData.scheduledAt,
-        timezone: formData.sendImmediately ? undefined : formData.timezone
+        scheduledAt: formData.sendImmediately ? new Date().toISOString() : formData.scheduledAt,
+        timezone: formData.sendImmediately ? formData.timezone : formData.timezone
       };
+      
+      // Debug logging for create campaign request
+      console.log('🚀 Create Campaign Request:', {
+        name: campaignData.name,
+        sendImmediately: campaignData.sendImmediately,
+        scheduledAt: campaignData.scheduledAt,
+        timezone: campaignData.timezone
+      });
       
       onSubmit(campaignData);
     } catch (err) {

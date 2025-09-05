@@ -82,10 +82,13 @@ export interface Campaign {
   failedCount: number;
   bouncedCount: number;
   smsSentCount: number;
-  // Scheduling fields
-  sendImmediately: boolean;
+  // Scheduling fields (support both camelCase and snake_case)
+  sendImmediately?: boolean;
   scheduledAt?: string;
   timezone?: string;
+  // Snake_case versions for API compatibility
+  sendimmediately?: boolean;
+  scheduledat?: string;
 }
 
 export type CampaignStatus = 'draft' | 'active' | 'paused' | 'completed' | 'failed' | 'scheduled';

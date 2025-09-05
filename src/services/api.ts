@@ -134,6 +134,16 @@ class ApiService {
       
       console.log('[Campaigns] Raw response:', response.status, response.data);
       
+      // Debug the raw data structure
+      if (Array.isArray(response.data) && response.data.length > 0) {
+        console.log('[Campaigns] Raw campaign data sample:', {
+          sendimmediately: response.data[0].sendimmediately,
+          scheduledat: response.data[0].scheduledat,
+          send_immediately: response.data[0].send_immediately,
+          scheduled_at: response.data[0].scheduled_at
+        });
+      }
+      
       // The webhook returns the campaigns array directly
       if (Array.isArray(response.data)) {
         // Map snake_case response to camelCase for frontend
@@ -156,12 +166,23 @@ class ApiService {
           failedCount: campaign.failed_count,
           bouncedCount: campaign.bounced_count,
           smsSentCount: campaign.sms_sent_count,
-          sendImmediately: campaign.send_immediately !== false, // Default to true if not specified
-          scheduledAt: campaign.scheduled_at,
+          sendImmediately: campaign.sendimmediately !== false, // Use correct field name from API
+          scheduledAt: campaign.sendimmediately !== false 
+            ? new Date().toISOString() // If immediate, use current date/time
+            : campaign.scheduledat, // Otherwise use the scheduled date from API
           timezone: campaign.timezone
         }));
         
         console.log('[Campaigns] Mapped campaigns:', mappedCampaigns);
+        
+        // Debug the scheduling logic
+        mappedCampaigns.forEach(campaign => {
+          console.log(`[Campaigns] ${campaign.name} scheduling:`, {
+            sendImmediately: campaign.sendImmediately,
+            scheduledAt: campaign.scheduledAt,
+            originalSendimmediately: campaign.sendImmediately ? 'true (immediate)' : 'false (scheduled)'
+          });
+        });
         return mappedCampaigns;
       } else {
         console.warn('[Campaigns] Unexpected response structure:', response.data);

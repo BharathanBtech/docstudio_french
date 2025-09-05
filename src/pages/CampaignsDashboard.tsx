@@ -292,21 +292,58 @@ const CampaignsDashboard: React.FC = () => {
                             )}
                           </td>
                           <td>
-                            {campaign.sendImmediately ? (
-                              <span style={{ color: 'var(--info-color)' }}>{t('campaigns.immediate')}</span>
-                            ) : campaign.scheduledAt ? (
-                              <div style={{ fontSize: 'var(--font-size-sm)' }}>
-                                <div style={{ color: 'var(--success-color)' }}>{t('campaigns.scheduled')}</div>
-                                <div style={{ color: 'var(--gray-600)', fontSize: 'var(--font-size-xs)' }}>
-                                  {new Date(campaign.scheduledAt).toLocaleDateString()}
-                                </div>
-                                <div style={{ color: 'var(--gray-500)', fontSize: 'var(--font-size-xs)' }}>
-                                  {new Date(campaign.scheduledAt).toLocaleTimeString()}
-                                </div>
-                              </div>
-                            ) : (
-                              <span style={{ color: 'var(--gray-500)' }}>{t('campaigns.notSet')}</span>
-                            )}
+                            {(() => {
+                              // Handle both camelCase and snake_case field names
+                              const campaignData = campaign as any;
+                              const sendImmediately = campaignData.sendImmediately ?? campaignData.sendimmediately;
+                              const scheduledAt = campaignData.scheduledAt ?? campaignData.scheduledat;
+                              
+                              // Debug logging
+                              console.log('🔍 Campaign scheduling debug:', {
+                                name: campaign.name,
+                                sendImmediately,
+                                scheduledAt,
+                                displayType: sendImmediately ? 'Immediate with timestamp' : scheduledAt ? 'Scheduled' : 'Not Set',
+                                rawData: {
+                                  sendImmediately: campaignData.sendImmediately,
+                                  sendimmediately: campaignData.sendimmediately,
+                                  scheduledAt: campaignData.scheduledAt,
+                                  scheduledat: campaignData.scheduledat
+                                }
+                              });
+                              
+                              if (sendImmediately) {
+                                return (
+                                  <div style={{ fontSize: 'var(--font-size-sm)' }}>
+                                    <div style={{ color: 'var(--info-color)' }}>{t('campaigns.immediate')}</div>
+                                    {scheduledAt && (
+                                      <>
+                                        <div style={{ color: 'var(--gray-600)', fontSize: 'var(--font-size-xs)' }}>
+                                          {new Date(scheduledAt).toLocaleDateString()}
+                                        </div>
+                                        <div style={{ color: 'var(--gray-500)', fontSize: 'var(--font-size-xs)' }}>
+                                          {new Date(scheduledAt).toLocaleTimeString()}
+                                        </div>
+                                      </>
+                                    )}
+                                  </div>
+                                );
+                              } else if (scheduledAt) {
+                                return (
+                                  <div style={{ fontSize: 'var(--font-size-sm)' }}>
+                                    <div style={{ color: 'var(--success-color)' }}>{t('campaigns.scheduled')}</div>
+                                    <div style={{ color: 'var(--gray-600)', fontSize: 'var(--font-size-xs)' }}>
+                                      {new Date(scheduledAt).toLocaleDateString()}
+                                    </div>
+                                    <div style={{ color: 'var(--gray-500)', fontSize: 'var(--font-size-xs)' }}>
+                                      {new Date(scheduledAt).toLocaleTimeString()}
+                                    </div>
+                                  </div>
+                                );
+                              } else {
+                                return <span style={{ color: 'var(--gray-500)' }}>{t('campaigns.notSet')}</span>;
+                              }
+                            })()}
                           </td>
                           <td>
                             <div style={{ textAlign: 'center' }}>
