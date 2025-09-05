@@ -98,6 +98,8 @@
     "scheduleForLaterHelp": "La campagne sera envoyée à la date et heure spécifiées",
     "date": "Date",
     "time": "Heure",
+    "scheduledDateTime": "Date et heure planifiées",
+    "scheduledDateTimeHelp": "Sélectionnez la date et l'heure d'envoi de la campagne",
     "timezone": "Fuseau horaire",
     "timezoneHelp": "La campagne sera envoyée selon ce fuseau horaire",
     "modalTitle": "Créer une nouvelle campagne",

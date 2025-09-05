@@ -485,55 +485,33 @@ const CreateCampaignModal: React.FC<CreateCampaignModalProps> = ({ onClose, onSu
 
                   {!formData.sendImmediately && (
                     <div style={{ 
-                      display: 'grid', 
-                      gridTemplateColumns: '1fr 1fr',
-                      gap: 'var(--spacing-4)',
                       padding: 'var(--spacing-4)',
                       backgroundColor: 'var(--gray-50)',
                       borderRadius: 'var(--radius-md)',
                       border: '1px solid var(--gray-200)'
                     }}>
                       <div className="form-group">
-                        <label htmlFor="scheduledDate" className="form-label">
-                          {t('campaigns.date')} *
+                        <label htmlFor="scheduledDateTime" className="form-label">
+                          {t('campaigns.scheduledDateTime')} *
                         </label>
                         <input
-                          type="date"
-                          id="scheduledDate"
+                          type="datetime-local"
+                          id="scheduledDateTime"
                           className="form-input"
-                          value={formData.scheduledAt.split('T')[0] || ''}
+                          value={formData.scheduledAt ? formData.scheduledAt.slice(0, 16) : ''}
                           onChange={(e) => {
-                            const date = e.target.value;
-                            const time = formData.scheduledAt.split('T')[1] || '12:00';
+                            const datetime = e.target.value;
                             setFormData(prev => ({ 
                               ...prev, 
-                              scheduledAt: `${date}T${time}` 
+                              scheduledAt: datetime ? `${datetime}:00.000Z` : '' 
                             }));
                           }}
-                          min={new Date().toISOString().split('T')[0]}
+                          min={new Date().toISOString().slice(0, 16)}
                           required={!formData.sendImmediately}
                         />
-                      </div>
-
-                      <div className="form-group">
-                        <label htmlFor="scheduledTime" className="form-label">
-                          {t('campaigns.time')} *
-                        </label>
-                        <input
-                          type="time"
-                          id="scheduledTime"
-                          className="form-input"
-                          value={formData.scheduledAt.split('T')[1] || '12:00'}
-                          onChange={(e) => {
-                            const date = formData.scheduledAt.split('T')[0] || new Date().toISOString().split('T')[0];
-                            const time = e.target.value;
-                            setFormData(prev => ({ 
-                              ...prev, 
-                              scheduledAt: `${date}T${time}` 
-                            }));
-                          }}
-                          required={!formData.sendImmediately}
-                        />
+                        <div className="form-help">
+                          {t('campaigns.scheduledDateTimeHelp')}
+                        </div>
                       </div>
 
                       <div className="form-group" style={{ gridColumn: '1 / -1' }}>

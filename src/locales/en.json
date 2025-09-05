@@ -98,6 +98,8 @@
     "scheduleForLaterHelp": "Campaign will be sent at the specified date and time",
     "date": "Date",
     "time": "Time",
+    "scheduledDateTime": "Scheduled Date & Time",
+    "scheduledDateTimeHelp": "Select the date and time when the campaign should be sent",
     "timezone": "Timezone",
     "timezoneHelp": "Campaign will be sent according to this timezone",
     "modalTitle": "Create New Campaign",
